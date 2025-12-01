@@ -21,6 +21,11 @@ const paymentTermSchema = new mongoose.Schema({
     min: 0,
     max: 100
   },
+  daysFromBL: {
+    type: Number,
+    min: 0,
+    default: 0
+  },
   isActive: {
     type: Boolean,
     default: true

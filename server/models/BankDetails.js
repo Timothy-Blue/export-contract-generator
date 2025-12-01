@@ -15,7 +15,10 @@ const bankDetailsSchema = new mongoose.Schema({
   },
   swiftCode: {
     type: String,
-    required: true
+    required: true,
+    uppercase: true,
+    trim: true,
+    match: [/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/, 'SWIFT code must be 8 or 11 characters']
   },
   bankAddress: {
     type: String

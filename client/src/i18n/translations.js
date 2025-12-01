@@ -12,6 +12,7 @@ export const translations = {
     buyer: "Buyer",
     seller: "Seller",
     commodity: "Commodity",
+    commodityDescription: "Commodity Description",
     quantity: "Quantity",
     unit: "Unit",
     unitPrice: "Unit Price",
@@ -20,10 +21,18 @@ export const translations = {
     tolerance: "Tolerance (%)",
     toleranceRange: "Tolerance Range",
     paymentTerm: "Payment Term",
+    paymentTermText: "Payment Terms Text",
     incoterm: "Incoterm",
     portLocation: "Port/Location",
     bankDetails: "Bank Details",
     remarks: "Remarks",
+    origin: "Origin",
+    packing: "Packing",
+    qualitySpec: "Quality Specification",
+    shipmentPeriod: "Shipment Period",
+    additionalTerms: "Additional Terms & Conditions",
+    releaseType: "Release Type",
+    releaseStatus: "Release Status",
     
     // Buttons
     save: "Save Contract",
@@ -44,6 +53,8 @@ export const translations = {
     email: "Email",
     phone: "Phone",
     partyType: "Party Type",
+    country: "Country",
+    taxId: "Tax ID / Business Number",
     
     // Contract List
     contractNo: "Contract No.",
@@ -53,6 +64,28 @@ export const translations = {
     actions: "Actions",
     noContracts: "No contracts found",
     loading: "Loading...",
+    
+    // Status Values
+    DRAFT: "Draft",
+    FINALIZED: "Finalized",
+    SENT: "Sent",
+    SIGNED: "Signed",
+    CANCELLED: "Cancelled",
+    PENDING: "Pending",
+    RELEASED: "Released",
+    NOT_APPLICABLE: "Not Applicable",
+    
+    // Release Types
+    SWB: "Sea Waybill (SWB)",
+    TELEX_RELEASE: "Telex Release",
+    ORIGINAL_BL: "Original B/L",
+    NOT_SPECIFIED: "Not Specified",
+    
+    // Debit Note
+    debitNoteNumber: "Debit Note Number",
+    invoiceDate: "Invoice Date",
+    dueDate: "Due Date",
+    releaseDocument: "Release Document",
     
     // Messages
     saveSuccess: "Contract saved successfully!",
@@ -106,6 +139,7 @@ export const translations = {
     buyer: "Bên Mua",
     seller: "Bên Bán",
     commodity: "Hàng Hóa",
+    commodityDescription: "Mô Tả Hàng Hóa",
     quantity: "Số Lượng",
     unit: "Đơn Vị",
     unitPrice: "Đơn Giá",
@@ -114,10 +148,18 @@ export const translations = {
     tolerance: "Dung Sai (%)",
     toleranceRange: "Phạm Vi Dung Sai",
     paymentTerm: "Điều Khoản Thanh Toán",
+    paymentTermText: "Nội Dung Thanh Toán",
     incoterm: "Điều Kiện Giao Hàng",
     portLocation: "Cảng/Địa Điểm",
     bankDetails: "Thông Tin Ngân Hàng",
     remarks: "Ghi Chú",
+    origin: "Xuất Xứ",
+    packing: "Đóng Gói",
+    qualitySpec: "Tiêu Chuẩn Chất Lượng",
+    shipmentPeriod: "Thời Gian Giao Hàng",
+    additionalTerms: "Điều Khoản Bổ Sung",
+    releaseType: "Loại Giải Phóng",
+    releaseStatus: "Trạng Thái Giải Phóng",
     
     // Buttons
     save: "Lưu Hợp Đồng",
@@ -138,6 +180,8 @@ export const translations = {
     email: "Email",
     phone: "Số Điện Thoại",
     partyType: "Loại Đối Tác",
+    country: "Quốc Gia",
+    taxId: "Mã Số Thuế / Số Đăng Ký Kinh Doanh",
     
     // Contract List
     contractNo: "Số HĐ",
@@ -147,6 +191,28 @@ export const translations = {
     actions: "Thao Tác",
     noContracts: "Không tìm thấy hợp đồng",
     loading: "Đang tải...",
+    
+    // Status Values
+    DRAFT: "Bản Nháp",
+    FINALIZED: "Đã Hoàn Thiện",
+    SENT: "Đã Gửi",
+    SIGNED: "Đã Ký",
+    CANCELLED: "Đã Hủy",
+    PENDING: "Đang Chờ",
+    RELEASED: "Đã Giải Phóng",
+    NOT_APPLICABLE: "Không Áp Dụng",
+    
+    // Release Types
+    SWB: "Vận Đơn Biển (SWB)",
+    TELEX_RELEASE: "Giải Phóng Telex",
+    ORIGINAL_BL: "Vận Đơn Gốc (B/L)",
+    NOT_SPECIFIED: "Chưa Xác Định",
+    
+    // Debit Note
+    debitNoteNumber: "Số Phiếu Ghi Nợ",
+    invoiceDate: "Ngày Hóa Đơn",
+    dueDate: "Ngày Đến Hạn",
+    releaseDocument: "Chứng Từ Giải Phóng",
     
     // Messages
     saveSuccess: "Lưu hợp đồng thành công!",

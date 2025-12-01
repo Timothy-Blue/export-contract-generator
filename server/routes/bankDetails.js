@@ -35,6 +35,11 @@ router.get('/default', async (req, res) => {
 // @access  Public
 router.get('/:id', async (req, res) => {
   try {
+    // Prevent 'default' from being treated as an ID
+    if (req.params.id === 'default') {
+      return res.status(400).json({ message: 'Invalid ID. Use /api/bank-details/default route instead.' });
+    }
+    
     const bankDetails = await BankDetails.findById(req.params.id);
     if (!bankDetails) {
       return res.status(404).json({ message: 'Bank details not found' });

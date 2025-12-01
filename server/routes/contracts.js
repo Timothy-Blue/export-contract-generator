@@ -58,22 +58,32 @@ router.get('/search', async (req, res) => {
       return res.status(400).json({ message: 'Search query is required' });
     }
     
-    // Search by contract number or populate and search buyer name
-    const contracts = await Contract.find()
+    // First, find buyers matching the query
+    const matchingBuyers = await require('../models/Party').find({
+      companyName: { $regex: query, $options: 'i' },
+      type: 'BUYER'
+    }).select('_id');
+    
+    const buyerIds = matchingBuyers.map(b => b._id);
+    
+    // Search by contract number OR buyer IDs
+    const searchQuery = {
+      $or: [
+        { contractNumber: { $regex: query, $options: 'i' } },
+        { buyer: { $in: buyerIds } }
+      ]
+    };
+    
+    const contracts = await Contract.find(searchQuery)
       .populate('buyer', 'companyName address email')
       .populate('seller', 'companyName address email')
       .populate('commodity', 'name description')
       .populate('paymentTerm', 'name terms')
       .populate('bankDetails')
-      .sort({ contractDate: -1 });
+      .sort({ contractDate: -1 })
+      .limit(50); // Limit results for performance
     
-    // Filter results based on contract number or buyer name
-    const filteredContracts = contracts.filter(contract => 
-      contract.contractNumber.toLowerCase().includes(query.toLowerCase()) ||
-      contract.buyer.companyName.toLowerCase().includes(query.toLowerCase())
-    );
-    
-    res.json(filteredContracts);
+    res.json(contracts);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -53,7 +53,8 @@ export const bankDetailsAPI = {
 // Export API
 export const exportAPI = {
   downloadPDF: (id) => `${API_URL}/export/pdf/${id}`,
-  downloadDOCX: (id) => `${API_URL}/export/docx/${id}`
+  downloadDOCX: (id) => `${API_URL}/export/docx/${id}`,
+  downloadReleaseNote: (id) => `${API_URL}/export/release-note/${id}`
 };
 
 export default {

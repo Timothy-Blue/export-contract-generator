@@ -131,6 +131,35 @@ const contractSchema = new mongoose.Schema({
     type: String
   },
   
+  // Release SWB / Telex Release
+  releaseType: {
+    type: String,
+    enum: ['SWB', 'TELEX_RELEASE', 'ORIGINAL_BL', 'NOT_SPECIFIED'],
+    default: 'NOT_SPECIFIED'
+  },
+  releaseStatus: {
+    type: String,
+    enum: ['PENDING', 'RELEASED', 'NOT_APPLICABLE'],
+    default: 'PENDING'
+  },
+  releaseDate: {
+    type: Date
+  },
+  releaseRemarks: {
+    type: String
+  },
+  
+  // Invoice/Debit Note Information
+  debitNoteNumber: {
+    type: String
+  },
+  invoiceDate: {
+    type: Date
+  },
+  dueDate: {
+    type: Date
+  },
+  
   // Status
   status: {
     type: String,

@@ -12,6 +12,8 @@ dist/
 # Logs
 *.log
 npm-debug.log*
+logs/*.log
+!logs/.gitkeep
 
 # OS files
 .DS_Store

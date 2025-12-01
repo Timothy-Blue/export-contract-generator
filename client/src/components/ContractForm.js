@@ -3,6 +3,7 @@ import Select from 'react-select';
 import { contractAPI, partyAPI, commodityAPI, paymentTermAPI, bankDetailsAPI } from '../services/api';
 import { INCOTERMS, CURRENCIES, UNITS } from '../constants';
 import BuyerModal from './BuyerModal';
+import SellerModal from './SellerModal';
 import { useLanguage } from '../contexts/LanguageContext';
 import './ContractForm.css';
 
@@ -15,6 +16,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
   const [paymentTerms, setPaymentTerms] = useState([]);
   const [bankDetails, setBankDetails] = useState([]);
   const [showBuyerModal, setShowBuyerModal] = useState(false);
+  const [showSellerModal, setShowSellerModal] = useState(false);
   
   const [formData, setFormData] = useState({
     buyer: '',
@@ -189,6 +191,29 @@ const ContractForm = ({ contractId, onSuccess }) => {
     }
   };
 
+  const handleSaveSeller = async (sellerData) => {
+    try {
+      const response = await partyAPI.create(sellerData);
+      const newSeller = response.data;
+      
+      // Reload sellers list
+      const sellersRes = await partyAPI.getAll({ type: 'SELLER' });
+      setSellers(sellersRes.data.map(s => ({ value: s._id, label: s.companyName, data: s })));
+      
+      // Select the newly created seller
+      setFormData(prev => ({ ...prev, seller: newSeller._id }));
+      
+      // Close modal
+      setShowSellerModal(false);
+      
+      alert('Seller added successfully!');
+    } catch (error) {
+      console.error('Error creating seller:', error);
+      alert('Failed to create seller: ' + (error.response?.data?.message || error.message));
+      throw error;
+    }
+  };
+
   const handleSelectChange = (name, selectedOption) => {
     setFormData(prev => ({ ...prev, [name]: selectedOption?.value || '' }));
     
@@ -296,13 +321,25 @@ const ContractForm = ({ contractId, onSuccess }) => {
             </div>
             <div className="form-group">
               <label>{t('seller')} *</label>
-              <Select
-                options={sellers}
-                value={sellers.find(s => s.value === formData.seller)}
-                onChange={(opt) => handleSelectChange('seller', opt)}
-                placeholder={t('seller')}
-                required
-              />
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                <div style={{ flex: 1 }}>
+                  <Select
+                    options={sellers}
+                    value={sellers.find(s => s.value === formData.seller)}
+                    onChange={(opt) => handleSelectChange('seller', opt)}
+                    placeholder={t('seller')}
+                    required
+                  />
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowSellerModal(true)}
+                  style={{ whiteSpace: 'nowrap' }}
+                >
+                  {t('addNewSeller')}
+                </button>
+              </div>
             </div>
           </div>
         </section>
@@ -537,6 +574,11 @@ const ContractForm = ({ contractId, onSuccess }) => {
               placeholder="Enter any additional terms and conditions..."
             />
           </div>
+        </section>
+
+        {/* Contract Status */}
+        <section className="form-section">
+          <h3>Contract Status</h3>
           <div className="form-group">
             <label>Status</label>
             <select name="status" value={formData.status} onChange={handleChange}>
@@ -564,6 +606,14 @@ const ContractForm = ({ contractId, onSuccess }) => {
           isOpen={showBuyerModal}
           onClose={() => setShowBuyerModal(false)}
           onSave={handleSaveBuyer}
+        />
+      )}
+
+      {showSellerModal && (
+        <SellerModal
+          isOpen={showSellerModal}
+          onClose={() => setShowSellerModal(false)}
+          onSave={handleSaveSeller}
         />
       )}
     </div>

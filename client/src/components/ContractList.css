@@ -129,8 +129,32 @@
   border-radius: 12px;
   color: white;
   font-size: 0.85em;
-  font-weight: 600;
+  font-weight: 500;
   text-transform: uppercase;
+}
+
+.release-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 8px;
+  color: white;
+  font-size: 0.75em;
+  font-weight: 500;
+  text-transform: uppercase;
+  background-color: #6c757d;
+}
+
+.release-badge.release-released {
+  background-color: #28a745;
+}
+
+.release-badge.release-pending {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.release-badge.release-not_applicable {
+  background-color: #6c757d;
 }
 
 .actions {
@@ -151,6 +175,10 @@
 .btn-icon:hover {
   background: #e9ecef;
   transform: scale(1.1);
+}
+
+.btn-icon.btn-release:hover {
+  background-color: #fff3cd;
 }
 
 .no-data {

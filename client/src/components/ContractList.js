@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { contractAPI, exportAPI } from '../services/api';
 import { useLanguage } from '../contexts/LanguageContext';
+import ReleaseModal from './ReleaseModal';
 import './ContractList.css';
 
 const ContractList = ({ onEdit }) => {
@@ -11,9 +12,12 @@ const ContractList = ({ onEdit }) => {
   const [filterStatus, setFilterStatus] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [showReleaseModal, setShowReleaseModal] = useState(false);
+  const [selectedContract, setSelectedContract] = useState(null);
 
   useEffect(() => {
     loadContracts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, filterStatus]);
 
   const loadContracts = async () => {
@@ -49,29 +53,48 @@ const ContractList = ({ onEdit }) => {
       setTotalPages(1);
     } catch (error) {
       console.error('Error searching contracts:', error);
-      alert('Search failed');
+      const errorMsg = error.response?.data?.message || error.message || 'Unknown error';
+      alert(t('search') + ' failed: ' + errorMsg);
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this contract?')) {
+    if (!window.confirm(t('delete') + '?')) {
       return;
     }
 
     try {
       await contractAPI.delete(id);
-      alert('Contract deleted successfully');
+      alert(t('deleteSuccess'));
       loadContracts();
     } catch (error) {
       console.error('Error deleting contract:', error);
-      alert('Failed to delete contract');
+      alert(t('deleteError'));
     }
   };
 
   const handleExportPDF = (id) => {
     window.open(exportAPI.downloadPDF(id), '_blank');
+  };
+
+  const handleOpenRelease = (contract) => {
+    setSelectedContract(contract);
+    setShowReleaseModal(true);
+  };
+
+  const handleSaveRelease = async (releaseData) => {
+    try {
+      await contractAPI.update(selectedContract._id, releaseData);
+      loadContracts();
+      // Update the selected contract with new data
+      const updatedContract = { ...selectedContract, ...releaseData };
+      setSelectedContract(updatedContract);
+    } catch (error) {
+      console.error('Error saving release:', error);
+      throw error;
+    }
   };
 
   const getStatusBadge = (status) => {
@@ -93,9 +116,9 @@ const ContractList = ({ onEdit }) => {
   return (
     <div className="contract-list-container">
       <div className="list-header">
-        <h2>Contract Management</h2>
+        <h2>{t('contractList')}</h2>
         <button className="btn btn-primary" onClick={() => onEdit(null)}>
-          + New Contract
+          + {t('newContract')}
         </button>
       </div>
 
@@ -139,6 +162,7 @@ const ContractList = ({ onEdit }) => {
                   <th>Buyer</th>
                   <th>Commodity</th>
                   <th>Total Amount</th>
+                  <th>Release</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -146,7 +170,7 @@ const ContractList = ({ onEdit }) => {
               <tbody>
                 {contracts.length === 0 ? (
                   <tr>
-                    <td colSpan="7" className="no-data">No contracts found</td>
+                    <td colSpan="8" className="no-data">No contracts found</td>
                   </tr>
                 ) : (
                   contracts.map((contract) => (
@@ -157,6 +181,33 @@ const ContractList = ({ onEdit }) => {
                       <td>{contract.commodity?.name || 'N/A'}</td>
                       <td className="amount">
                         {contract.currency} {contract.totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      </td>
+                      <td>
+                        <span className={`release-badge release-${contract.releaseStatus?.toLowerCase() || 'pending'}`}>
+                          {contract.releaseType !== 'NOT_SPECIFIED' ? contract.releaseType : '-'}
+                        </span>
+                        {contract.debitNoteNumber && (
+                          <button
+                            className="btn-mini-export"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              window.open(exportAPI.downloadReleaseNote(contract._id), '_blank');
+                            }}
+                            title="Export Release Note PDF"
+                            style={{
+                              marginLeft: '5px',
+                              fontSize: '0.8em',
+                              padding: '2px 6px',
+                              background: '#17a2b8',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '3px',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            📄
+                          </button>
+                        )}
                       </td>
                       <td>{getStatusBadge(contract.status)}</td>
                       <td className="actions">
@@ -173,6 +224,13 @@ const ContractList = ({ onEdit }) => {
                           title="Export PDF"
                         >
                           📄
+                        </button>
+                        <button
+                          className="btn-icon btn-release"
+                          onClick={() => handleOpenRelease(contract)}
+                          title="Release Document"
+                        >
+                          📋
                         </button>
                         <button
                           className="btn-icon btn-delete"
@@ -211,6 +269,15 @@ const ContractList = ({ onEdit }) => {
             </div>
           )}
         </>
+      )}
+
+      {showReleaseModal && selectedContract && (
+        <ReleaseModal
+          isOpen={showReleaseModal}
+          onClose={() => setShowReleaseModal(false)}
+          onSave={handleSaveRelease}
+          contract={selectedContract}
+        />
       )}
     </div>
   );

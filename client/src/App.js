@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import ContractForm from './components/ContractForm';
 import ContractList from './components/ContractList';
 import LanguageSwitcher from './components/LanguageSwitcher';
