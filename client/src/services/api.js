@@ -57,7 +57,7 @@ export const exportAPI = {
   downloadReleaseNote: (id) => `${API_URL}/export/release-note/${id}`
 };
 
-export default {
+const api = {
   contractAPI,
   partyAPI,
   commodityAPI,
@@ -65,3 +65,5 @@ export default {
   bankDetailsAPI,
   exportAPI
 };
+
+export default api;
