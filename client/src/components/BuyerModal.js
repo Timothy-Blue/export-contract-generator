@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 import './BuyerModal.css';
 
 const BuyerModal = ({ isOpen, onClose, onSave }) => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     companyName: '',
     address: '',
@@ -48,12 +50,12 @@ const BuyerModal = ({ isOpen, onClose, onSave }) => {
     <div className="modal-overlay" onClick={onClose} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>Add New Buyer</h2>
+          <h2>{t('addBuyer')}</h2>
           <button className="modal-close" onClick={onClose}>&times;</button>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Company Name *</label>
+            <label>{t('companyName')} *</label>
             <input
               type="text"
               name="companyName"
@@ -64,7 +66,7 @@ const BuyerModal = ({ isOpen, onClose, onSave }) => {
             />
           </div>
           <div className="form-group">
-            <label>Address *</label>
+            <label>{t('address')} *</label>
             <textarea
               name="address"
               value={formData.address}
@@ -75,7 +77,7 @@ const BuyerModal = ({ isOpen, onClose, onSave }) => {
             />
           </div>
           <div className="form-group">
-            <label>Contact Person</label>
+            <label>{t('contactPerson')}</label>
             <input
               type="text"
               name="contactPerson"
@@ -85,7 +87,7 @@ const BuyerModal = ({ isOpen, onClose, onSave }) => {
             />
           </div>
           <div className="form-group">
-            <label>Email</label>
+            <label>{t('email')}</label>
             <input
               type="email"
               name="email"
@@ -95,7 +97,7 @@ const BuyerModal = ({ isOpen, onClose, onSave }) => {
             />
           </div>
           <div className="form-group">
-            <label>Phone</label>
+            <label>{t('phone')}</label>
             <input
               type="tel"
               name="phone"
@@ -106,10 +108,10 @@ const BuyerModal = ({ isOpen, onClose, onSave }) => {
           </div>
           <div className="modal-actions">
             <button type="button" onClick={onClose} className="btn-cancel">
-              Cancel
+              {t('cancel')}
             </button>
             <button type="submit" disabled={saving} className="btn-save">
-              {saving ? 'Saving...' : 'Save Buyer'}
+              {saving ? t('loading') + '...' : t('save')}
             </button>
           </div>
         </form>

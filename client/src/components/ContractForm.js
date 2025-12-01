@@ -3,9 +3,11 @@ import Select from 'react-select';
 import { contractAPI, partyAPI, commodityAPI, paymentTermAPI, bankDetailsAPI } from '../services/api';
 import { INCOTERMS, CURRENCIES, UNITS } from '../constants';
 import BuyerModal from './BuyerModal';
+import { useLanguage } from '../contexts/LanguageContext';
 import './ContractForm.css';
 
 const ContractForm = ({ contractId, onSuccess }) => {
+  const { t } = useLanguage();
   const [loading, setLoading] = useState(false);
   const [buyers, setBuyers] = useState([]);
   const [sellers, setSellers] = useState([]);
@@ -263,7 +265,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
     }
   };  return (
     <div className="contract-form-container">
-      <h2>{contractId ? 'Edit Contract' : 'New Contract'}</h2>
+      <h2>{contractId ? t('edit') + ' ' + t('contractDetails') : t('newContract')}</h2>
       
       <form onSubmit={handleSubmit}>
         {/* Parties Section */}
@@ -271,14 +273,14 @@ const ContractForm = ({ contractId, onSuccess }) => {
           <h3>Parties</h3>
           <div className="form-row">
             <div className="form-group">
-              <label>Buyer *</label>
+              <label>{t('buyer')} *</label>
               <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
                 <div style={{ flex: 1 }}>
                   <Select
                     options={buyers}
                     value={buyers.find(b => b.value === formData.buyer)}
                     onChange={(opt) => handleSelectChange('buyer', opt)}
-                    placeholder="Select Buyer"
+                    placeholder={t('buyer')}
                     required
                   />
                 </div>
@@ -288,17 +290,17 @@ const ContractForm = ({ contractId, onSuccess }) => {
                   onClick={() => setShowBuyerModal(true)}
                   style={{ whiteSpace: 'nowrap' }}
                 >
-                  Add New Buyer
+                  {t('addNewBuyer')}
                 </button>
               </div>
             </div>
             <div className="form-group">
-              <label>Seller *</label>
+              <label>{t('seller')} *</label>
               <Select
                 options={sellers}
                 value={sellers.find(s => s.value === formData.seller)}
                 onChange={(opt) => handleSelectChange('seller', opt)}
-                placeholder="Select Seller"
+                placeholder={t('seller')}
                 required
               />
             </div>
@@ -309,12 +311,12 @@ const ContractForm = ({ contractId, onSuccess }) => {
         <section className="form-section">
           <h3>Article 1: Commodity, Quality & Quantity</h3>
           <div className="form-group">
-            <label>Commodity *</label>
+            <label>{t('commodity')} *</label>
             <Select
               options={commodities}
               value={commodities.find(c => c.value === formData.commodity)}
               onChange={(opt) => handleSelectChange('commodity', opt)}
-              placeholder="Select Commodity"
+              placeholder={t('commodity')}
               required
             />
           </div>
@@ -549,10 +551,10 @@ const ContractForm = ({ contractId, onSuccess }) => {
 
         <div className="form-actions">
           <button type="submit" className="btn btn-primary" disabled={loading}>
-            {loading ? 'Saving...' : (contractId ? 'Update Contract' : 'Create Contract')}
+            {loading ? t('loading') + '...' : t('save')}
           </button>
           <button type="button" className="btn btn-secondary" onClick={() => window.history.back()}>
-            Cancel
+            {t('cancel')}
           </button>
         </div>
       </form>

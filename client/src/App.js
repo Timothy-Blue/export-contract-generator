@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import ContractForm from './components/ContractForm';
 import ContractList from './components/ContractList';
+import LanguageSwitcher from './components/LanguageSwitcher';
+import { useLanguage } from './contexts/LanguageContext';
 import './App.css';
 
 function App() {
+  const { t } = useLanguage();
   const [editingContractId, setEditingContractId] = useState(null);
   const [currentView, setCurrentView] = useState('list');
 
@@ -22,20 +25,21 @@ function App() {
     <div className="App">
       <header className="app-header">
         <div className="header-content">
-          <h1>📄 Export Contract Generator</h1>
+          <h1>📄 {t('appTitle')}</h1>
           <nav className="nav-menu">
             <button 
               className={`nav-btn ${currentView === 'list' ? 'active' : ''}`}
               onClick={() => setCurrentView('list')}
             >
-              Contracts
+              {t('contractList')}
             </button>
             <button 
               className={`nav-btn ${currentView === 'form' ? 'active' : ''}`}
               onClick={() => { setEditingContractId(null); setCurrentView('form'); }}
             >
-              New Contract
+              {t('newContract')}
             </button>
+            <LanguageSwitcher />
           </nav>
         </div>
       </header>

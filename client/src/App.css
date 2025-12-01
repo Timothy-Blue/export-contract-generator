@@ -49,6 +49,9 @@ body {
 .nav-menu {
   display: flex;
   gap: 15px;
+  align-items: center;
+  flex: 1;
+  justify-content: flex-end;
 }
 
 .nav-btn {

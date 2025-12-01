@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { contractAPI, exportAPI } from '../services/api';
+import { useLanguage } from '../contexts/LanguageContext';
 import './ContractList.css';
 
 const ContractList = ({ onEdit }) => {
+  const { t } = useLanguage();
   const [contracts, setContracts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
