@@ -10,7 +10,8 @@
     "client": "set NODE_OPTIONS=--max_old_space_size=4096 && npm start --prefix client",
     "install-all": "npm install && npm install --prefix client",
     "build": "set NODE_OPTIONS=--max_old_space_size=4096 && npm run build --prefix client",
-    "vercel-build": "npm install --prefix client && npm run build --prefix client"
+    "test": "node server/tests/test-controllers.js",
+    "test:controllers": "node server/tests/test-controllers.js"
   },
   "keywords": [
     "export",

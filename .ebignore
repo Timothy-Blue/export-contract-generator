@@ -1,0 +1,9 @@
+# .ebignore - Don't upload these to Elastic Beanstalk
+node_modules/
+client/
+.git/
+.vscode/
+*.log
+.env.example
+docs/
+scripts/

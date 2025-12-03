@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'https://fantastic-gentleness-production-9b58.up.railway.app/api';
+// Use environment variable or default to localhost for development
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 // Contract API
 export const contractAPI = {
