@@ -18,8 +18,8 @@ const corsOptions = {
     
     const allowedOrigins = [
       'http://localhost:3000',
-      'https://export-contract-generator-g2vmk5un6-timothys-projects-28edc6d1.vercel.app',
-      /\.vercel\.app$/
+      'https://main.d24brmnp6nkeb0.amplifyapp.com',
+      /\.amplifyapp\.com$/
     ];
     
     const isAllowed = allowedOrigins.some(allowed => {
