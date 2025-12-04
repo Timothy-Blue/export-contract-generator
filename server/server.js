@@ -18,8 +18,10 @@ const corsOptions = {
     
     const allowedOrigins = [
       'http://localhost:3000',
+      'http://export-contract-frontend-static.s3-website-us-east-1.amazonaws.com',
       'https://main.d24brmnp6nkeb0.amplifyapp.com',
-      /\.amplifyapp\.com$/
+      /\.amplifyapp\.com$/,
+      /\.amazonaws\.com$/
     ];
     
     const isAllowed = allowedOrigins.some(allowed => {
