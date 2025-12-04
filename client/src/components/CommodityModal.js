@@ -119,8 +119,8 @@ const CommodityModal = ({ isOpen, onClose, onSave }) => {
             <button type="button" className="btn-cancel" onClick={onClose} disabled={saving}>
               Cancel
             </button>
-            <button type="submit" className="btn-primary" disabled={saving}>
-              {saving ? 'Saving...' : 'Save Commodity'}
+            <button type="submit" className="btn-save" disabled={saving}>
+              {saving ? 'Saving...' : 'Save'}
             </button>
           </div>
         </form>

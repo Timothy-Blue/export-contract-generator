@@ -76,8 +76,16 @@ const ContractForm = ({ contractId, onSuccess }) => {
 
   useEffect(() => {
     // Real-time calculation
-    if (formData.quantity && formData.unitPrice) {
+    if (formData.quantity && formData.unitPrice && formData.unitPrice > 0) {
       calculateValues();
+    } else if (formData.unitPrice === 0 || formData.unitPrice === '0') {
+      // Reset calculations to 0 when price is 0
+      setCalculations({
+        totalAmount: 0,
+        totalAmountText: '',
+        quantityRange: { min: 0, max: 0 },
+        amountRange: { min: 0, max: 0 }
+      });
     }
   }, [formData.quantity, formData.unitPrice, formData.tolerance, formData.currency, calculateValues]);
 
