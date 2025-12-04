@@ -102,7 +102,6 @@ export const translations = {
     debitNoteNumber: "Debit Note Number",
     invoiceDate: "Invoice Date",
     dueDate: "Due Date",
-    releaseDocument: "Release Document",
     
     // Messages
     saveSuccess: "Contract saved successfully!",
@@ -331,7 +330,6 @@ export const translations = {
     debitNoteNumber: "Số Phiếu Ghi Nợ",
     invoiceDate: "Ngày Hóa Đơn",
     dueDate: "Ngày Đến Hạn",
-    releaseDocument: "Chứng Từ Giải Phóng",
     
     // Messages
     saveSuccess: "Lưu hợp đồng thành công!",
