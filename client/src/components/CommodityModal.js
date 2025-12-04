@@ -50,12 +50,12 @@ const CommodityModal = ({ isOpen, onClose, onSave }) => {
     <div className="modal-overlay" onClick={onClose} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>Add Commodity</h2>
+          <h2>{t('addCommodity')}</h2>
           <button className="modal-close" onClick={onClose}>&times;</button>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Commodity Name *</label>
+            <label>{t('commodityName')} *</label>
             <input
               type="text"
               name="name"
@@ -66,7 +66,7 @@ const CommodityModal = ({ isOpen, onClose, onSave }) => {
             />
           </div>
           <div className="form-group">
-            <label>Description</label>
+            <label>{t('description')}</label>
             <textarea
               name="description"
               value={formData.description}
@@ -76,7 +76,7 @@ const CommodityModal = ({ isOpen, onClose, onSave }) => {
             />
           </div>
           <div className="form-group">
-            <label>HS Code</label>
+            <label>{t('hsCode')}</label>
             <input
               type="text"
               name="hsCode"
@@ -86,7 +86,7 @@ const CommodityModal = ({ isOpen, onClose, onSave }) => {
             />
           </div>
           <div className="form-group">
-            <label>Origin</label>
+            <label>{t('origin')}</label>
             <input
               type="text"
               name="origin"
@@ -96,7 +96,7 @@ const CommodityModal = ({ isOpen, onClose, onSave }) => {
             />
           </div>
           <div className="form-group">
-            <label>Packing</label>
+            <label>{t('packing')}</label>
             <input
               type="text"
               name="packing"
@@ -106,7 +106,7 @@ const CommodityModal = ({ isOpen, onClose, onSave }) => {
             />
           </div>
           <div className="form-group">
-            <label>Quality Specification</label>
+            <label>{t('qualitySpec')}</label>
             <textarea
               name="qualitySpec"
               value={formData.qualitySpec}
@@ -117,10 +117,10 @@ const CommodityModal = ({ isOpen, onClose, onSave }) => {
           </div>
           <div className="modal-footer">
             <button type="button" className="btn-cancel" onClick={onClose} disabled={saving}>
-              Cancel
+              {t('cancel')}
             </button>
             <button type="submit" className="btn-save" disabled={saving}>
-              {saving ? 'Saving...' : 'Save'}
+              {saving ? t('loading') : t('save')}
             </button>
           </div>
         </form>

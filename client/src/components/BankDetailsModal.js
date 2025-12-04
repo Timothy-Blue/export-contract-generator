@@ -51,12 +51,12 @@ const BankDetailsModal = ({ isOpen, onClose, onSave }) => {
     <div className="modal-overlay" onClick={onClose} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>Add Bank Details</h2>
+          <h2>{t('addBankDetails')}</h2>
           <button className="modal-close" onClick={onClose}>&times;</button>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Bank Name *</label>
+            <label>{t('bankName')} *</label>
             <input
               type="text"
               name="bankName"
@@ -67,7 +67,7 @@ const BankDetailsModal = ({ isOpen, onClose, onSave }) => {
             />
           </div>
           <div className="form-group">
-            <label>Account Name *</label>
+            <label>{t('accountName')} *</label>
             <input
               type="text"
               name="accountName"
@@ -78,7 +78,7 @@ const BankDetailsModal = ({ isOpen, onClose, onSave }) => {
             />
           </div>
           <div className="form-group">
-            <label>Account Number *</label>
+            <label>{t('accountNumber')} *</label>
             <input
               type="text"
               name="accountNumber"
@@ -89,7 +89,7 @@ const BankDetailsModal = ({ isOpen, onClose, onSave }) => {
             />
           </div>
           <div className="form-group">
-            <label>SWIFT Code *</label>
+            <label>{t('swiftCode')} *</label>
             <input
               type="text"
               name="swiftCode"
@@ -100,7 +100,7 @@ const BankDetailsModal = ({ isOpen, onClose, onSave }) => {
             />
           </div>
           <div className="form-group">
-            <label>Bank Address *</label>
+            <label>{t('bankAddress')} *</label>
             <textarea
               name="bankAddress"
               value={formData.bankAddress}
@@ -119,15 +119,15 @@ const BankDetailsModal = ({ isOpen, onClose, onSave }) => {
                 onChange={handleChange}
                 style={{ width: 'auto', margin: 0 }}
               />
-              Set as default bank details
+              {t('setAsDefault')}
             </label>
           </div>
           <div className="modal-footer">
             <button type="button" className="btn-cancel" onClick={onClose} disabled={saving}>
-              Cancel
+              {t('cancel')}
             </button>
             <button type="submit" className="btn-save" disabled={saving}>
-              {saving ? 'Saving...' : 'Save'}
+              {saving ? t('loading') : t('save')}
             </button>
           </div>
         </form>

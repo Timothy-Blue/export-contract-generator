@@ -43,10 +43,14 @@ export const translations = {
     export: "Export",
     addNewBuyer: "Add New Buyer",
     addNewSeller: "Add New Seller",
+    addNewCommodity: "Add New Commodity",
+    addNewBank: "Add New Bank",
     
     // Buyer/Seller Modal
     addBuyer: "Add New Buyer",
     addSeller: "Add New Seller",
+    addCommodity: "Add Commodity",
+    addBankDetails: "Add Bank Details",
     companyName: "Company Name",
     address: "Address",
     contactPerson: "Contact Person",
@@ -55,6 +59,19 @@ export const translations = {
     partyType: "Party Type",
     country: "Country",
     taxId: "Tax ID / Business Number",
+    
+    // Commodity Modal
+    commodityName: "Commodity Name",
+    description: "Description",
+    hsCode: "HS Code",
+    
+    // Bank Details Modal
+    bankName: "Bank Name",
+    accountName: "Account Name",
+    accountNumber: "Account Number",
+    swiftCode: "SWIFT Code",
+    bankAddress: "Bank Address",
+    setAsDefault: "Set as default bank details",
     
     // Contract List
     contractNo: "Contract No.",
@@ -170,10 +187,14 @@ export const translations = {
     export: "Xuất File",
     addNewBuyer: "Thêm Bên Mua Mới",
     addNewSeller: "Thêm Bên Bán Mới",
+    addNewCommodity: "Thêm Hàng Hóa Mới",
+    addNewBank: "Thêm Ngân Hàng Mới",
     
     // Buyer/Seller Modal
     addBuyer: "Thêm Bên Mua Mới",
     addSeller: "Thêm Bên Bán Mới",
+    addCommodity: "Thêm Hàng Hóa",
+    addBankDetails: "Thêm Thông Tin Ngân Hàng",
     companyName: "Tên Công Ty",
     address: "Địa Chỉ",
     contactPerson: "Người Liên Hệ",
@@ -182,6 +203,19 @@ export const translations = {
     partyType: "Loại Đối Tác",
     country: "Quốc Gia",
     taxId: "Mã Số Thuế / Số Đăng Ký Kinh Doanh",
+    
+    // Commodity Modal
+    commodityName: "Tên Hàng Hóa",
+    description: "Mô Tả",
+    hsCode: "Mã HS",
+    
+    // Bank Details Modal
+    bankName: "Tên Ngân Hàng",
+    accountName: "Tên Tài Khoản",
+    accountNumber: "Số Tài Khoản",
+    swiftCode: "Mã SWIFT",
+    bankAddress: "Địa Chỉ Ngân Hàng",
+    setAsDefault: "Đặt làm ngân hàng mặc định",
     
     // Contract List
     contractNo: "Số HĐ",
