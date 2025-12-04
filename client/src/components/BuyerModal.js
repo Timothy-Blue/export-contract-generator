@@ -83,7 +83,7 @@ const BuyerModal = ({ isOpen, onClose, onSave }) => {
               name="contactPerson"
               value={formData.contactPerson}
               onChange={handleChange}
-              placeholder="Contact person name"
+              placeholder={t('contactPersonPlaceholder')}
             />
           </div>
           <div className="form-group">
@@ -93,7 +93,7 @@ const BuyerModal = ({ isOpen, onClose, onSave }) => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="buyer@example.com"
+              placeholder={t('emailPlaceholder')}
             />
           </div>
           <div className="form-group">

@@ -130,7 +130,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
     } catch (error) {
       console.error('Error loading master data:', error);
       const errorMsg = error.response?.data?.message || error.message || 'Unknown error';
-      alert('Failed to load master data.\n\nError: ' + errorMsg + '\n\nPlease ensure MongoDB is running and the database is seeded.\nRun: node server/seed.js');
+      alert(t('failedToLoadMasterData') + '\n\nError: ' + errorMsg + '\n\n' + t('ensureMongoDBRunning'));
     }
   };  const loadContract = async (id) => {
     try {
@@ -169,7 +169,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
       });
     } catch (error) {
       console.error('Error loading contract:', error);
-      alert('Failed to load contract');
+      alert(t('failedToLoadContract'));
     } finally {
       setLoading(false);
     }
@@ -200,10 +200,10 @@ const ContractForm = ({ contractId, onSuccess }) => {
       // Close modal
       setShowBuyerModal(false);
       
-      alert('Buyer added successfully!');
+      alert(t('buyerAddedSuccess'));
     } catch (error) {
       console.error('Error creating buyer:', error);
-      alert('Failed to create buyer: ' + (error.response?.data?.message || error.message));
+      alert(t('failedToCreateBuyer') + ': ' + (error.response?.data?.message || error.message));
       throw error;
     }
   };
@@ -223,10 +223,10 @@ const ContractForm = ({ contractId, onSuccess }) => {
       // Close modal
       setShowSellerModal(false);
       
-      alert('Seller added successfully!');
+      alert(t('sellerAddedSuccess'));
     } catch (error) {
       console.error('Error creating seller:', error);
-      alert('Failed to create seller: ' + (error.response?.data?.message || error.message));
+      alert(t('failedToCreateSeller') + ': ' + (error.response?.data?.message || error.message));
       throw error;
     }
   };
@@ -246,10 +246,10 @@ const ContractForm = ({ contractId, onSuccess }) => {
       // Close modal
       setShowCommodityModal(false);
       
-      alert('Commodity added successfully!');
+      alert(t('commodityAddedSuccess'));
     } catch (error) {
       console.error('Error creating commodity:', error);
-      alert('Failed to create commodity: ' + (error.response?.data?.message || error.message));
+      alert(t('failedToCreateCommodity') + ': ' + (error.response?.data?.message || error.message));
       throw error;
     }
   };
@@ -269,10 +269,10 @@ const ContractForm = ({ contractId, onSuccess }) => {
       // Close modal
       setShowBankDetailsModal(false);
       
-      alert('Bank details added successfully!');
+      alert(t('bankDetailsAddedSuccess'));
     } catch (error) {
       console.error('Error creating bank details:', error);
-      alert('Failed to create bank details: ' + (error.response?.data?.message || error.message));
+      alert(t('failedToCreateBankDetails') + ': ' + (error.response?.data?.message || error.message));
       throw error;
     }
   };
@@ -305,23 +305,23 @@ const ContractForm = ({ contractId, onSuccess }) => {
 
     // Validation
     if (!formData.buyer) {
-      alert('Please select a buyer or add a new buyer');
+      alert(t('pleaseSelectBuyer'));
       return;
     }
     if (!formData.seller) {
-      alert('Please select a seller');
+      alert(t('pleaseSelectSeller'));
       return;
     }
     if (!formData.commodity) {
-      alert('Please select a commodity');
+      alert(t('pleaseSelectCommodityAlert'));
       return;
     }
     if (!formData.paymentTerm) {
-      alert('Please select payment terms');
+      alert(t('pleaseSelectPaymentTermAlert'));
       return;
     }
     if (!formData.bankDetails) {
-      alert('Please select bank details');
+      alert(t('pleaseSelectBankAlert'));
       return;
     }
 
@@ -337,17 +337,17 @@ const ContractForm = ({ contractId, onSuccess }) => {
 
       if (contractId) {
         await contractAPI.update(contractId, submitData);
-        alert('Contract updated successfully!');
+        alert(t('contractUpdatedSuccess'));
       } else {
         await contractAPI.create(submitData);
-        alert('Contract created successfully!');
+        alert(t('contractCreatedSuccess'));
       }
 
       if (onSuccess) onSuccess();
     } catch (error) {
       console.error('Error saving contract:', error);
       const errorMsg = error.response?.data?.message || error.message || 'Unknown error';
-      alert('Failed to save contract.\n\nError: ' + errorMsg);
+      alert(t('failedToSaveContract') + '.\n\nError: ' + errorMsg);
     } finally {
       setLoading(false);
     }
@@ -358,7 +358,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
       <form onSubmit={handleSubmit}>
         {/* Parties Section */}
         <section className="form-section">
-          <h3>Parties</h3>
+          <h3>{t('parties')}</h3>
           <div className="form-row">
             <div className="form-group">
               <label>{t('buyer')} *</label>
@@ -368,7 +368,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
                     options={buyers}
                     value={buyers.find(b => b.value === formData.buyer)}
                     onChange={(opt) => handleSelectChange('buyer', opt)}
-                    placeholder={t('buyer')}
+                    placeholder={t('selectBuyerPlaceholder')}
                     required
                   />
                 </div>
@@ -390,7 +390,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
                     options={sellers}
                     value={sellers.find(s => s.value === formData.seller)}
                     onChange={(opt) => handleSelectChange('seller', opt)}
-                    placeholder={t('seller')}
+                    placeholder={t('selectSellerPlaceholder')}
                     required
                   />
                 </div>
@@ -409,7 +409,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
 
         {/* Article 1: Commodity */}
         <section className="form-section">
-          <h3>Article 1: Commodity, Quality & Quantity</h3>
+          <h3>{t('article1')}</h3>
           <div className="form-group">
             <label>{t('commodity')} *</label>
             <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
@@ -418,7 +418,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
                   options={commodities}
                   value={commodities.find(c => c.value === formData.commodity)}
                   onChange={(opt) => handleSelectChange('commodity', opt)}
-                  placeholder={t('commodity')}
+                  placeholder={t('selectCommodityPlaceholder')}
                   required
                 />
               </div>
@@ -428,12 +428,12 @@ const ContractForm = ({ contractId, onSuccess }) => {
                 onClick={() => setShowCommodityModal(true)}
                 style={{ whiteSpace: 'nowrap' }}
               >
-                Add New Commodity
+                {t('addNewCommodity')}
               </button>
             </div>
           </div>
           <div className="form-group">
-            <label>Description *</label>
+            <label>{t('description')} *</label>
             <textarea
               name="commodityDescription"
               value={formData.commodityDescription}
@@ -444,7 +444,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
           </div>
           <div className="form-row">
             <div className="form-group">
-              <label>Quantity *</label>
+              <label>{t('quantity')} *</label>
               <input
                 type="number"
                 name="quantity"
@@ -455,7 +455,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
               />
             </div>
             <div className="form-group">
-              <label>Unit *</label>
+              <label>{t('unit')} *</label>
               <Select
                 options={UNITS}
                 value={UNITS.find(u => u.value === formData.unit)}
@@ -464,7 +464,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
               />
             </div>
             <div className="form-group">
-              <label>Tolerance (%)</label>
+              <label>{t('tolerance')}</label>
               <input
                 type="number"
                 name="tolerance"
@@ -479,13 +479,13 @@ const ContractForm = ({ contractId, onSuccess }) => {
           
           {formData.tolerance > 0 && (
             <div className="info-box">
-              <strong>Quantity Range:</strong> {calculations.quantityRange.min} - {calculations.quantityRange.max} {formData.unit}
+              <strong>{t('quantityRange')}:</strong> {calculations.quantityRange.min} - {calculations.quantityRange.max} {formData.unit}
             </div>
           )}
           
           <div className="form-row">
             <div className="form-group">
-              <label>Origin *</label>
+              <label>{t('origin')} *</label>
               <input
                 type="text"
                 name="origin"
@@ -495,7 +495,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
               />
             </div>
             <div className="form-group">
-              <label>Packing *</label>
+              <label>{t('packing')} *</label>
               <input
                 type="text"
                 name="packing"
@@ -506,7 +506,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
             </div>
           </div>
           <div className="form-group">
-            <label>Quality Specification</label>
+            <label>{t('qualitySpec')}</label>
             <textarea
               name="qualitySpec"
               value={formData.qualitySpec}
@@ -518,10 +518,10 @@ const ContractForm = ({ contractId, onSuccess }) => {
 
         {/* Article 2: Price */}
         <section className="form-section">
-          <h3>Article 2: Price</h3>
+          <h3>{t('article2')}</h3>
           <div className="form-row">
             <div className="form-group">
-              <label>Unit Price *</label>
+              <label>{t('unitPrice')} *</label>
               <input
                 type="number"
                 name="unitPrice"
@@ -532,7 +532,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
               />
             </div>
             <div className="form-group">
-              <label>Currency *</label>
+              <label>{t('currency')} *</label>
               <Select
                 options={CURRENCIES}
                 value={CURRENCIES.find(c => c.value === formData.currency)}
@@ -544,18 +544,18 @@ const ContractForm = ({ contractId, onSuccess }) => {
           
           <div className="calculation-display">
             <div className="calc-item">
-              <strong>Total Amount:</strong>
+              <strong>{t('totalAmountLabel')}:</strong>
               <span className="amount">{formData.currency} {calculations.totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
             </div>
             {calculations.totalAmountText && (
               <div className="calc-item">
-                <strong>In Words:</strong>
+                <strong>{t('inWords')}:</strong>
                 <span className="amount-text">{calculations.totalAmountText}</span>
               </div>
             )}
             {formData.tolerance > 0 && (
               <div className="calc-item">
-                <strong>Amount Range:</strong>
+                <strong>{t('amountRange')}:</strong>
                 <span className="amount-range">
                   {formData.currency} {calculations.amountRange.min?.toLocaleString('en-US', { minimumFractionDigits: 2 })} - {calculations.amountRange.max?.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </span>
@@ -565,7 +565,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
           
           <div className="form-row">
             <div className="form-group">
-              <label>Incoterm *</label>
+              <label>{t('incoterm')} *</label>
               <Select
                 options={INCOTERMS}
                 value={INCOTERMS.find(i => i.value === formData.incoterm)}
@@ -574,7 +574,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
               />
             </div>
             <div className="form-group">
-              <label>Port/Location *</label>
+              <label>{t('portLocation')} *</label>
               <input
                 type="text"
                 name="portLocation"
@@ -588,19 +588,19 @@ const ContractForm = ({ contractId, onSuccess }) => {
 
         {/* Article 3: Payment */}
         <section className="form-section">
-          <h3>Article 3: Payment</h3>
+          <h3>{t('article3')}</h3>
           <div className="form-group">
-            <label>Payment Terms *</label>
+            <label>{t('paymentTerm')} *</label>
             <Select
               options={paymentTerms}
               value={paymentTerms.find(p => p.value === formData.paymentTerm)}
               onChange={(opt) => handleSelectChange('paymentTerm', opt)}
-              placeholder="Select Payment Terms"
+              placeholder={t('selectPaymentTermPlaceholder')}
               required
             />
           </div>
           <div className="form-group">
-            <label>Payment Terms Text *</label>
+            <label>{t('paymentTermText')} *</label>
             <textarea
               name="paymentTermText"
               value={formData.paymentTermText}
@@ -613,16 +613,16 @@ const ContractForm = ({ contractId, onSuccess }) => {
 
         {/* Bank Details */}
         <section className="form-section">
-          <h3>Seller's Bank Details</h3>
+          <h3>{t('sellerBankDetails')}</h3>
           <div className="form-group">
-            <label>Bank Details *</label>
+            <label>{t('bankDetails')} *</label>
             <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
               <div style={{ flex: 1 }}>
                 <Select
                   options={bankDetails}
                   value={bankDetails.find(b => b.value === formData.bankDetails)}
                   onChange={(opt) => handleSelectChange('bankDetails', opt)}
-                  placeholder="Select Bank Details"
+                  placeholder={t('selectBankPlaceholder')}
                   required
                 />
               </div>
@@ -632,7 +632,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
                 onClick={() => setShowBankDetailsModal(true)}
                 style={{ whiteSpace: 'nowrap' }}
               >
-                Add New Bank
+                {t('addNewBank')}
               </button>
             </div>
           </div>
@@ -640,40 +640,40 @@ const ContractForm = ({ contractId, onSuccess }) => {
 
         {/* Additional Information */}
         <section className="form-section">
-          <h3>Additional Information</h3>
+          <h3>{t('additionalInformation')}</h3>
           <div className="form-group">
-            <label>Shipment Period</label>
+            <label>{t('shipmentPeriod')}</label>
             <input
               type="text"
               name="shipmentPeriod"
               value={formData.shipmentPeriod}
               onChange={handleChange}
-              placeholder="e.g., Within 30 days from receipt of L/C"
+              placeholder={t('shipmentPeriodPlaceholder')}
             />
           </div>
           <div className="form-group">
-            <label>Additional Terms & Conditions</label>
+            <label>{t('additionalTerms')}</label>
             <textarea
               name="additionalTerms"
               value={formData.additionalTerms}
               onChange={handleChange}
               rows="4"
-              placeholder="Enter any additional terms and conditions..."
+              placeholder={t('additionalTermsPlaceholder')}
             />
           </div>
         </section>
 
         {/* Contract Status */}
         <section className="form-section">
-          <h3>Contract Status</h3>
+          <h3>{t('contractStatus')}</h3>
           <div className="form-group">
-            <label>Status</label>
+            <label>{t('status')}</label>
             <select name="status" value={formData.status} onChange={handleChange}>
-              <option value="DRAFT">Draft</option>
-              <option value="FINALIZED">Finalized</option>
-              <option value="SENT">Sent</option>
-              <option value="SIGNED">Signed</option>
-              <option value="CANCELLED">Cancelled</option>
+              <option value="DRAFT">{t('DRAFT')}</option>
+              <option value="FINALIZED">{t('FINALIZED')}</option>
+              <option value="SENT">{t('SENT')}</option>
+              <option value="SIGNED">{t('SIGNED')}</option>
+              <option value="CANCELLED">{t('CANCELLED')}</option>
             </select>
           </div>
         </section>

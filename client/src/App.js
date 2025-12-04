@@ -55,7 +55,7 @@ function App() {
       </main>
 
       <footer className="app-footer">
-        <p>Export Contract Generator &copy; 2025 | Automated Commercial Contract Management</p>
+        <p>{t('footerText')}</p>
       </footer>
     </div>
   );

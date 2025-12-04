@@ -35,7 +35,7 @@ const ContractList = ({ onEdit }) => {
     } catch (error) {
       console.error('Error loading contracts:', error);
       const errorMsg = error.response?.data?.message || error.message || 'Unknown error';
-      alert('Failed to load contracts.\n\nError: ' + errorMsg + '\n\nPlease ensure MongoDB is running and the server is started.\nRun: npm run dev');
+      alert(t('failedToLoadContracts') + '\n\nError: ' + errorMsg + '\n\n' + t('ensureServerRunning'));
       setContracts([]);
     } finally {
       setLoading(false);
@@ -61,7 +61,7 @@ const ContractList = ({ onEdit }) => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm(t('delete') + '?')) {
+    if (!window.confirm(t('deleteConfirm'))) {
       return;
     }
 
@@ -126,51 +126,51 @@ const ContractList = ({ onEdit }) => {
         <div className="search-box">
           <input
             type="text"
-            placeholder="Search by contract number or buyer name..."
+            placeholder={t('searchPlaceholder')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
           />
           <button className="btn btn-search" onClick={handleSearch}>
-            Search
+            {t('search')}
           </button>
         </div>
 
         <div className="filter-group">
-          <label>Status:</label>
+          <label>{t('status')}:</label>
           <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
-            <option value="">All</option>
-            <option value="DRAFT">Draft</option>
-            <option value="FINALIZED">Finalized</option>
-            <option value="SENT">Sent</option>
-            <option value="SIGNED">Signed</option>
-            <option value="CANCELLED">Cancelled</option>
+            <option value="">{t('all')}</option>
+            <option value="DRAFT">{t('DRAFT')}</option>
+            <option value="FINALIZED">{t('FINALIZED')}</option>
+            <option value="SENT">{t('SENT')}</option>
+            <option value="SIGNED">{t('SIGNED')}</option>
+            <option value="CANCELLED">{t('CANCELLED')}</option>
           </select>
         </div>
       </div>
 
       {loading ? (
-        <div className="loading">Loading contracts...</div>
+        <div className="loading">{t('loadingContracts')}</div>
       ) : (
         <>
           <div className="contracts-table">
             <table>
               <thead>
                 <tr>
-                  <th>Contract No.</th>
-                  <th>Date</th>
-                  <th>Buyer</th>
-                  <th>Commodity</th>
-                  <th>Total Amount</th>
-                  <th>Release</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                  <th>{t('contractNoHeader')}</th>
+                  <th>{t('dateHeader')}</th>
+                  <th>{t('buyerHeader')}</th>
+                  <th>{t('commodityHeader')}</th>
+                  <th>{t('totalAmountHeader')}</th>
+                  <th>{t('releaseHeader')}</th>
+                  <th>{t('statusHeader')}</th>
+                  <th>{t('actionsHeader')}</th>
                 </tr>
               </thead>
               <tbody>
                 {contracts.length === 0 ? (
                   <tr>
-                    <td colSpan="8" className="no-data">No contracts found</td>
+                    <td colSpan="8" className="no-data">{t('noContractsFound')}</td>
                   </tr>
                 ) : (
                   contracts.map((contract) => (
@@ -254,17 +254,17 @@ const ContractList = ({ onEdit }) => {
                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
               >
-                Previous
+                {t('previous')}
               </button>
               <span className="page-info">
-                Page {currentPage} of {totalPages}
+                {t('pageOf')} {currentPage} {t('of')} {totalPages}
               </span>
               <button
                 className="btn btn-page"
                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
               >
-                Next
+                {t('next')}
               </button>
             </div>
           )}

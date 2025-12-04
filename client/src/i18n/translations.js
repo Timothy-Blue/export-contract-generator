@@ -140,7 +140,92 @@ export const translations = {
     // Language
     language: "Language",
     vietnamese: "Vietnamese",
-    english: "English"
+    english: "English",
+    
+    // Placeholders
+    selectBuyerPlaceholder: "Select buyer",
+    selectSellerPlaceholder: "Select seller",
+    selectCommodityPlaceholder: "Select commodity",
+    selectPaymentTermPlaceholder: "Select Payment Terms",
+    selectBankPlaceholder: "Select Bank Details",
+    searchPlaceholder: "Search by contract number or buyer name...",
+    contactPersonPlaceholder: "Contact person name",
+    emailPlaceholder: "buyer@example.com",
+    emailPlaceholderSeller: "seller@example.com",
+    shipmentPeriodPlaceholder: "e.g., Within 30 days from receipt of L/C",
+    additionalTermsPlaceholder: "Enter any additional terms and conditions...",
+    releaseRemarksPlaceholder: "Enter any additional notes about the release...",
+    
+    // Section Headers
+    parties: "Parties",
+    article1: "Article 1: Commodity, Quality & Quantity",
+    article2: "Article 2: Price",
+    article3: "Article 3: Payment",
+    sellerBankDetails: "Seller's Bank Details",
+    additionalInformation: "Additional Information",
+    contractStatus: "Contract Status",
+    
+    // Labels and Fields
+    quantityRange: "Quantity Range",
+    amountRange: "Amount Range",
+    totalAmountLabel: "Total Amount",
+    inWords: "In Words",
+    all: "All",
+    
+    // Table Headers
+    contractNoHeader: "Contract No.",
+    dateHeader: "Date",
+    buyerHeader: "Buyer",
+    commodityHeader: "Commodity",
+    totalAmountHeader: "Total Amount",
+    releaseHeader: "Release",
+    statusHeader: "Status",
+    actionsHeader: "Actions",
+    
+    // Messages and Alerts
+    loadingContracts: "Loading contracts...",
+    noContractsFound: "No contracts found",
+    pleaseSelectBuyer: "Please select a buyer or add a new buyer",
+    pleaseSelectSeller: "Please select a seller",
+    pleaseSelectCommodityAlert: "Please select a commodity",
+    pleaseSelectPaymentTermAlert: "Please select payment terms",
+    pleaseSelectBankAlert: "Please select bank details",
+    contractCreatedSuccess: "Contract created successfully!",
+    contractUpdatedSuccess: "Contract updated successfully!",
+    failedToSaveContract: "Failed to save contract",
+    failedToLoadContract: "Failed to load contract",
+    failedToLoadMasterData: "Failed to load master data.",
+    ensureMongoDBRunning: "Please ensure MongoDB is running and the database is seeded.\nRun: node server/seed.js",
+    failedToLoadContracts: "Failed to load contracts.",
+    ensureServerRunning: "Please ensure MongoDB is running and the server is started.\nRun: npm run dev",
+    deleteConfirm: "Are you sure you want to delete this contract?",
+    buyerAddedSuccess: "Buyer added successfully!",
+    sellerAddedSuccess: "Seller added successfully!",
+    commodityAddedSuccess: "Commodity added successfully!",
+    bankDetailsAddedSuccess: "Bank details added successfully!",
+    failedToCreateBuyer: "Failed to create buyer",
+    failedToCreateSeller: "Failed to create seller",
+    failedToCreateCommodity: "Failed to create commodity",
+    failedToCreateBankDetails: "Failed to create bank details",
+    releaseInfoSaved: "Release information saved successfully! You can now export the PDF.",
+    saveBeforeExport: "Please save your changes before exporting the PDF.",
+    failedToSaveRelease: "Failed to save release information",
+    unsavedChangesWarning: "⚠️ You have unsaved changes. Please save before exporting PDF.",
+    
+    // Buttons and Actions  
+    previous: "Previous",
+    next: "Next",
+    pageOf: "Page",
+    of: "of",
+    
+    // Release Modal
+    releaseDocument: "Release Document",
+    releaseDate: "Release Date",
+    releaseRemarks: "Release Remarks / Additional Notes",
+    exportPDF: "Export PDF",
+    
+    // Footer
+    footerText: "Export Contract Generator © 2025 | Automated Commercial Contract Management"
   },
   
   vi: {
@@ -284,7 +369,92 @@ export const translations = {
     // Language
     language: "Ngôn Ngữ",
     vietnamese: "Tiếng Việt",
-    english: "Tiếng Anh"
+    english: "Tiếng Anh",
+    
+    // Placeholders
+    selectBuyerPlaceholder: "Chọn bên mua",
+    selectSellerPlaceholder: "Chọn bên bán",
+    selectCommodityPlaceholder: "Chọn hàng hóa",
+    selectPaymentTermPlaceholder: "Chọn Điều Khoản Thanh Toán",
+    selectBankPlaceholder: "Chọn Thông Tin Ngân Hàng",
+    searchPlaceholder: "Tìm kiếm theo số hợp đồng hoặc tên bên mua...",
+    contactPersonPlaceholder: "Tên người liên hệ",
+    emailPlaceholder: "benmu a@example.com",
+    emailPlaceholderSeller: "benban@example.com",
+    shipmentPeriodPlaceholder: "Ví dụ: Trong vòng 30 ngày kể từ khi nhận L/C",
+    additionalTermsPlaceholder: "Nhập các điều khoản và điều kiện bổ sung...",
+    releaseRemarksPlaceholder: "Nhập các ghi chú bổ sung về việc giải phóng...",
+    
+    // Section Headers
+    parties: "Các Bên",
+    article1: "Điều 1: Hàng Hóa, Chất Lượng & Số Lượng",
+    article2: "Điều 2: Giá Cả",
+    article3: "Điều 3: Thanh Toán",
+    sellerBankDetails: "Thông Tin Ngân Hàng Bên Bán",
+    additionalInformation: "Thông Tin Bổ Sung",
+    contractStatus: "Trạng Thái Hợp Đồng",
+    
+    // Labels and Fields
+    quantityRange: "Phạm Vi Số Lượng",
+    amountRange: "Phạm Vi Giá Trị",
+    totalAmountLabel: "Tổng Giá Trị",
+    inWords: "Bằng Chữ",
+    all: "Tất Cả",
+    
+    // Table Headers
+    contractNoHeader: "Số HĐ",
+    dateHeader: "Ngày",
+    buyerHeader: "Bên Mua",
+    commodityHeader: "Hàng Hóa",
+    totalAmountHeader: "Tổng Giá Trị",
+    releaseHeader: "Giải Phóng",
+    statusHeader: "Trạng Thái",
+    actionsHeader: "Thao Tác",
+    
+    // Messages and Alerts
+    loadingContracts: "Đang tải hợp đồng...",
+    noContractsFound: "Không tìm thấy hợp đồng",
+    pleaseSelectBuyer: "Vui lòng chọn bên mua hoặc thêm bên mua mới",
+    pleaseSelectSeller: "Vui lòng chọn bên bán",
+    pleaseSelectCommodityAlert: "Vui lòng chọn hàng hóa",
+    pleaseSelectPaymentTermAlert: "Vui lòng chọn điều khoản thanh toán",
+    pleaseSelectBankAlert: "Vui lòng chọn thông tin ngân hàng",
+    contractCreatedSuccess: "Tạo hợp đồng thành công!",
+    contractUpdatedSuccess: "Cập nhật hợp đồng thành công!",
+    failedToSaveContract: "Lỗi khi lưu hợp đồng",
+    failedToLoadContract: "Lỗi khi tải hợp đồng",
+    failedToLoadMasterData: "Lỗi khi tải dữ liệu chính.",
+    ensureMongoDBRunning: "Vui lòng đảm bảo MongoDB đang chạy và cơ sở dữ liệu đã được khởi tạo.\nChạy: node server/seed.js",
+    failedToLoadContracts: "Lỗi khi tải danh sách hợp đồng.",
+    ensureServerRunning: "Vui lòng đảm bảo MongoDB đang chạy và server đã được khởi động.\nChạy: npm run dev",
+    deleteConfirm: "Bạn có chắc chắn muốn xóa hợp đồng này?",
+    buyerAddedSuccess: "Thêm bên mua thành công!",
+    sellerAddedSuccess: "Thêm bên bán thành công!",
+    commodityAddedSuccess: "Thêm hàng hóa thành công!",
+    bankDetailsAddedSuccess: "Thêm thông tin ngân hàng thành công!",
+    failedToCreateBuyer: "Lỗi khi tạo bên mua",
+    failedToCreateSeller: "Lỗi khi tạo bên bán",
+    failedToCreateCommodity: "Lỗi khi tạo hàng hóa",
+    failedToCreateBankDetails: "Lỗi khi tạo thông tin ngân hàng",
+    releaseInfoSaved: "Lưu thông tin giải phóng thành công! Bạn có thể xuất PDF ngay bây giờ.",
+    saveBeforeExport: "Vui lòng lưu thay đổi trước khi xuất PDF.",
+    failedToSaveRelease: "Lỗi khi lưu thông tin giải phóng",
+    unsavedChangesWarning: "⚠️ Bạn có thay đổi chưa lưu. Vui lòng lưu trước khi xuất PDF.",
+    
+    // Buttons and Actions
+    previous: "Trước",
+    next: "Tiếp",
+    pageOf: "Trang",
+    of: "của",
+    
+    // Release Modal
+    releaseDocument: "Chứng Từ Giải Phóng",
+    releaseDate: "Ngày Giải Phóng",
+    releaseRemarks: "Ghi Chú Giải Phóng / Ghi Chú Bổ Sung",
+    exportPDF: "Xuất PDF",
+    
+    // Footer
+    footerText: "Phần Mềm Tạo Hợp Đồng Xuất Khẩu © 2025 | Quản Lý Hợp Đồng Thương Mại Tự Động"
   }
 };
 

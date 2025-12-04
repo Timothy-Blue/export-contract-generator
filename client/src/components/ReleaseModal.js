@@ -46,11 +46,11 @@ const ReleaseModal = ({ isOpen, onClose, onSave, contract }) => {
     try {
       await onSave(formData);
       setHasUnsavedChanges(false);
-      alert('Release information saved successfully! You can now export the PDF.');
+      alert(t('releaseInfoSaved'));
       // Don't close modal automatically, let user export or close manually
     } catch (error) {
       console.error('Error saving release info:', error);
-      alert('Failed to save release information');
+      alert(t('failedToSaveRelease'));
     } finally {
       setSaving(false);
     }
@@ -58,7 +58,7 @@ const ReleaseModal = ({ isOpen, onClose, onSave, contract }) => {
 
   const handleExportPDF = () => {
     if (hasUnsavedChanges) {
-      alert('Please save your changes before exporting the PDF.');
+      alert(t('saveBeforeExport'));
       return;
     }
     window.open(exportAPI.downloadReleaseNote(contract._id), '_blank');
@@ -70,7 +70,7 @@ const ReleaseModal = ({ isOpen, onClose, onSave, contract }) => {
     <div className="modal-overlay" onClick={onClose} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '600px', width: '90%' }}>
         <div className="modal-header">
-          <h2>Release Document - {contract?.contractNumber}</h2>
+          <h2>{t('releaseDocument')} - {contract?.contractNumber}</h2>
           <button className="modal-close" onClick={onClose}>&times;</button>
         </div>
         {hasUnsavedChanges && (
@@ -82,12 +82,12 @@ const ReleaseModal = ({ isOpen, onClose, onSave, contract }) => {
             marginBottom: '15px',
             color: '#856404'
           }}>
-            ⚠️ You have unsaved changes. Please save before exporting PDF.
+            {t('unsavedChangesWarning')}
           </div>
         )}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Debit Note Number</label>
+            <label>{t('debitNoteNumber')}</label>
             <input
               type="text"
               name="debitNoteNumber"
@@ -99,7 +99,7 @@ const ReleaseModal = ({ isOpen, onClose, onSave, contract }) => {
 
           <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
             <div className="form-group">
-              <label>Invoice Date</label>
+              <label>{t('invoiceDate')}</label>
               <input
                 type="date"
                 name="invoiceDate"
@@ -108,7 +108,7 @@ const ReleaseModal = ({ isOpen, onClose, onSave, contract }) => {
               />
             </div>
             <div className="form-group">
-              <label>Due Date</label>
+              <label>{t('dueDate')}</label>
               <input
                 type="date"
                 name="dueDate"
@@ -122,24 +122,24 @@ const ReleaseModal = ({ isOpen, onClose, onSave, contract }) => {
             <div className="form-group">
               <label>{t('releaseType')}</label>
               <select name="releaseType" value={formData.releaseType} onChange={handleChange}>
-                <option value="NOT_SPECIFIED">Not Specified</option>
-                <option value="SWB">Sea Waybill (SWB)</option>
-                <option value="TELEX_RELEASE">Telex Release</option>
-                <option value="ORIGINAL_BL">Original B/L</option>
+                <option value="NOT_SPECIFIED">{t('NOT_SPECIFIED')}</option>
+                <option value="SWB">{t('SWB')}</option>
+                <option value="TELEX_RELEASE">{t('TELEX_RELEASE')}</option>
+                <option value="ORIGINAL_BL">{t('ORIGINAL_BL')}</option>
               </select>
             </div>
             <div className="form-group">
               <label>{t('releaseStatus')}</label>
               <select name="releaseStatus" value={formData.releaseStatus} onChange={handleChange}>
-                <option value="PENDING">Pending</option>
-                <option value="RELEASED">Released</option>
-                <option value="NOT_APPLICABLE">Not Applicable</option>
+                <option value="PENDING">{t('PENDING')}</option>
+                <option value="RELEASED">{t('RELEASED')}</option>
+                <option value="NOT_APPLICABLE">{t('NOT_APPLICABLE')}</option>
               </select>
             </div>
           </div>
 
           <div className="form-group">
-            <label>Release Date</label>
+            <label>{t('releaseDate')}</label>
             <input
               type="date"
               name="releaseDate"
@@ -149,13 +149,13 @@ const ReleaseModal = ({ isOpen, onClose, onSave, contract }) => {
           </div>
 
           <div className="form-group">
-            <label>Release Remarks / Additional Notes</label>
+            <label>{t('releaseRemarks')}</label>
             <textarea
               name="releaseRemarks"
               value={formData.releaseRemarks}
               onChange={handleChange}
               rows="3"
-              placeholder="Enter any additional notes about the release..."
+              placeholder={t('releaseRemarksPlaceholder')}
             />
           </div>
 
@@ -177,7 +177,7 @@ const ReleaseModal = ({ isOpen, onClose, onSave, contract }) => {
                 fontWeight: '600'
               }}
             >
-              📄 Export PDF
+              📄 {t('exportPDF')}
             </button>
             <button type="submit" disabled={saving} className="btn-save">
               {saving ? t('loading') + '...' : t('save')}
