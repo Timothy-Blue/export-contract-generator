@@ -4,6 +4,8 @@ import { contractAPI, partyAPI, commodityAPI, paymentTermAPI, bankDetailsAPI } f
 import { INCOTERMS, CURRENCIES, UNITS } from '../constants';
 import BuyerModal from './BuyerModal';
 import SellerModal from './SellerModal';
+import CommodityModal from './CommodityModal';
+import BankDetailsModal from './BankDetailsModal';
 import { useLanguage } from '../contexts/LanguageContext';
 import './ContractForm.css';
 
@@ -17,6 +19,8 @@ const ContractForm = ({ contractId, onSuccess }) => {
   const [bankDetails, setBankDetails] = useState([]);
   const [showBuyerModal, setShowBuyerModal] = useState(false);
   const [showSellerModal, setShowSellerModal] = useState(false);
+  const [showCommodityModal, setShowCommodityModal] = useState(false);
+  const [showBankDetailsModal, setShowBankDetailsModal] = useState(false);
   
   const [formData, setFormData] = useState({
     buyer: '',
@@ -165,7 +169,12 @@ const ContractForm = ({ contractId, onSuccess }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    // Reset to 0 if price field is cleared
+    if ((name === 'unitPrice' || name === 'quantity') && value === '') {
+      setFormData(prev => ({ ...prev, [name]: 0 }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSaveBuyer = async (buyerData) => {
@@ -210,6 +219,52 @@ const ContractForm = ({ contractId, onSuccess }) => {
     } catch (error) {
       console.error('Error creating seller:', error);
       alert('Failed to create seller: ' + (error.response?.data?.message || error.message));
+      throw error;
+    }
+  };
+
+  const handleSaveCommodity = async (commodityData) => {
+    try {
+      const response = await commodityAPI.create(commodityData);
+      const newCommodity = response.data;
+      
+      // Reload commodities list
+      const commoditiesRes = await commodityAPI.getAll();
+      setCommodities(commoditiesRes.data.map(c => ({ value: c._id, label: c.name, data: c })));
+      
+      // Select the newly created commodity
+      setFormData(prev => ({ ...prev, commodity: newCommodity._id }));
+      
+      // Close modal
+      setShowCommodityModal(false);
+      
+      alert('Commodity added successfully!');
+    } catch (error) {
+      console.error('Error creating commodity:', error);
+      alert('Failed to create commodity: ' + (error.response?.data?.message || error.message));
+      throw error;
+    }
+  };
+
+  const handleSaveBankDetails = async (bankDetailsData) => {
+    try {
+      const response = await bankDetailsAPI.create(bankDetailsData);
+      const newBankDetails = response.data;
+      
+      // Reload bank details list
+      const bankDetailsRes = await bankDetailsAPI.getAll();
+      setBankDetails(bankDetailsRes.data.map(b => ({ value: b._id, label: b.bankName, data: b })));
+      
+      // Select the newly created bank details
+      setFormData(prev => ({ ...prev, bankDetails: newBankDetails._id }));
+      
+      // Close modal
+      setShowBankDetailsModal(false);
+      
+      alert('Bank details added successfully!');
+    } catch (error) {
+      console.error('Error creating bank details:', error);
+      alert('Failed to create bank details: ' + (error.response?.data?.message || error.message));
       throw error;
     }
   };
@@ -349,13 +404,25 @@ const ContractForm = ({ contractId, onSuccess }) => {
           <h3>Article 1: Commodity, Quality & Quantity</h3>
           <div className="form-group">
             <label>{t('commodity')} *</label>
-            <Select
-              options={commodities}
-              value={commodities.find(c => c.value === formData.commodity)}
-              onChange={(opt) => handleSelectChange('commodity', opt)}
-              placeholder={t('commodity')}
-              required
-            />
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+              <div style={{ flex: 1 }}>
+                <Select
+                  options={commodities}
+                  value={commodities.find(c => c.value === formData.commodity)}
+                  onChange={(opt) => handleSelectChange('commodity', opt)}
+                  placeholder={t('commodity')}
+                  required
+                />
+              </div>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setShowCommodityModal(true)}
+                style={{ whiteSpace: 'nowrap' }}
+              >
+                Add New Commodity
+              </button>
+            </div>
           </div>
           <div className="form-group">
             <label>Description *</label>
@@ -541,13 +608,25 @@ const ContractForm = ({ contractId, onSuccess }) => {
           <h3>Seller's Bank Details</h3>
           <div className="form-group">
             <label>Bank Details *</label>
-            <Select
-              options={bankDetails}
-              value={bankDetails.find(b => b.value === formData.bankDetails)}
-              onChange={(opt) => handleSelectChange('bankDetails', opt)}
-              placeholder="Select Bank Details"
-              required
-            />
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+              <div style={{ flex: 1 }}>
+                <Select
+                  options={bankDetails}
+                  value={bankDetails.find(b => b.value === formData.bankDetails)}
+                  onChange={(opt) => handleSelectChange('bankDetails', opt)}
+                  placeholder="Select Bank Details"
+                  required
+                />
+              </div>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setShowBankDetailsModal(true)}
+                style={{ whiteSpace: 'nowrap' }}
+              >
+                Add New Bank
+              </button>
+            </div>
           </div>
         </section>
 
@@ -614,6 +693,22 @@ const ContractForm = ({ contractId, onSuccess }) => {
           isOpen={showSellerModal}
           onClose={() => setShowSellerModal(false)}
           onSave={handleSaveSeller}
+        />
+      )}
+
+      {showCommodityModal && (
+        <CommodityModal
+          isOpen={showCommodityModal}
+          onClose={() => setShowCommodityModal(false)}
+          onSave={handleSaveCommodity}
+        />
+      )}
+
+      {showBankDetailsModal && (
+        <BankDetailsModal
+          isOpen={showBankDetailsModal}
+          onClose={() => setShowBankDetailsModal(false)}
+          onSave={handleSaveBankDetails}
         />
       )}
     </div>
