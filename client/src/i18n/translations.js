@@ -31,6 +31,11 @@ export const translations = {
     qualitySpec: "Quality Specification",
     shipmentPeriod: "Shipment Period",
     additionalTerms: "Additional Terms & Conditions",
+    contractTerms: "Buyer & Seller Terms",
+    buyerTerms: "Buyer Terms",
+    buyerTermsPlaceholder: "Edit buyer terms...",
+    sellerTerms: "Seller Terms",
+    sellerTermsPlaceholder: "Edit seller terms...",
     releaseType: "Release Type",
     releaseStatus: "Release Status",
     
@@ -210,6 +215,9 @@ export const translations = {
     saveBeforeExport: "Please save your changes before exporting the PDF.",
     failedToSaveRelease: "Failed to save release information",
     unsavedChangesWarning: "⚠️ You have unsaved changes. Please save before exporting PDF.",
+    unsavedChanges: "Unsaved Changes",
+    unsavedChangesMessage: "You have unsaved changes. Do you want to save before leaving?",
+    discardChanges: "Discard",
     
     // Buttons and Actions  
     previous: "Previous",
@@ -259,6 +267,11 @@ export const translations = {
     qualitySpec: "Tiêu Chuẩn Chất Lượng",
     shipmentPeriod: "Thời Gian Giao Hàng",
     additionalTerms: "Điều Khoản Bổ Sung",
+    contractTerms: "Điều Khoản Bên Mua & Bên Bán",
+    buyerTerms: "Điều Khoản Bên Mua",
+    buyerTermsPlaceholder: "Chỉnh sửa điều khoản bên mua...",
+    sellerTerms: "Điều Khoản Bên Bán",
+    sellerTermsPlaceholder: "Chỉnh sửa điều khoản bên bán...",
     releaseType: "Loại Giải Phóng",
     releaseStatus: "Trạng Thái Giải Phóng",
     
@@ -438,6 +451,9 @@ export const translations = {
     saveBeforeExport: "Vui lòng lưu thay đổi trước khi xuất PDF.",
     failedToSaveRelease: "Lỗi khi lưu thông tin giải phóng",
     unsavedChangesWarning: "⚠️ Bạn có thay đổi chưa lưu. Vui lòng lưu trước khi xuất PDF.",
+    unsavedChanges: "Các Thay Đổi Chưa Lưu",
+    unsavedChangesMessage: "Bạn có các thay đổi chưa lưu. Bạn có muốn lưu trước khi rời khỏi?",
+    discardChanges: "Bỏ Qua",
     
     // Buttons and Actions
     previous: "Trước",

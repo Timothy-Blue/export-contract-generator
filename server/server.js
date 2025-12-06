@@ -45,7 +45,8 @@ app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
 // Security middleware
-app.use(rateLimit(60000, 100)); // 100 requests per minute
+// Disable rate limiting for development
+// app.use(rateLimit(60000, 100)); // 100 requests per minute
 app.use(sanitizeInput);
 
 // Apply API key authentication to all API routes except health check

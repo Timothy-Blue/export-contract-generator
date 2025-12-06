@@ -131,6 +131,22 @@ const contractSchema = new mongoose.Schema({
     type: String
   },
   
+  // Buyer and Seller Terms
+  buyerTerms: {
+    type: String,
+    default: () => {
+      const { getDefaultBuyerTerms } = require('../utils/defaultTerms');
+      return getDefaultBuyerTerms();
+    }
+  },
+  sellerTerms: {
+    type: String,
+    default: () => {
+      const { getDefaultSellerTerms } = require('../utils/defaultTerms');
+      return getDefaultSellerTerms();
+    }
+  },
+  
   // Release SWB / Telex Release
   releaseType: {
     type: String,

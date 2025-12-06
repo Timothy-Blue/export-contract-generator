@@ -220,3 +220,85 @@
 .btn-add-buyer:active {
   transform: scale(0.98);
 }
+
+/* Unsaved Changes Confirmation Dialog */
+.confirmation-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.confirmation-dialog {
+  background: white;
+  border-radius: 8px;
+  padding: 30px;
+  max-width: 400px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.confirmation-dialog h3 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 1.2em;
+}
+
+.confirmation-dialog p {
+  color: #666;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.dialog-actions .btn {
+  padding: 8px 16px;
+  font-size: 0.9em;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.dialog-actions .btn-primary {
+  background: #28a745;
+  color: white;
+}
+
+.dialog-actions .btn-primary:hover:not(:disabled) {
+  background: #218838;
+}
+
+.dialog-actions .btn-danger {
+  background: #dc3545;
+  color: white;
+}
+
+.dialog-actions .btn-danger:hover {
+  background: #c82333;
+}
+
+.dialog-actions .btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.dialog-actions .btn-secondary:hover {
+  background: #5a6268;
+}
+
+.dialog-actions .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

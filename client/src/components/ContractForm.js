@@ -42,8 +42,13 @@ const ContractForm = ({ contractId, onSuccess }) => {
     bankDetails: '',
     shipmentPeriod: '',
     additionalTerms: '',
+    buyerTerms: '',
+    sellerTerms: '',
     status: 'DRAFT'
   });
+  
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   
   const [calculations, setCalculations] = useState({
     totalAmount: 0,
@@ -158,6 +163,8 @@ const ContractForm = ({ contractId, onSuccess }) => {
         bankDetails: contract.bankDetails._id,
         shipmentPeriod: contract.shipmentPeriod || '',
         additionalTerms: contract.additionalTerms || '',
+        buyerTerms: contract.buyerTerms || '',
+        sellerTerms: contract.sellerTerms || '',
         status: contract.status
       });
       
@@ -167,6 +174,8 @@ const ContractForm = ({ contractId, onSuccess }) => {
         quantityRange: { min: contract.minQuantity, max: contract.maxQuantity },
         amountRange: { min: contract.minTotalAmount, max: contract.maxTotalAmount }
       });
+      
+      setHasUnsavedChanges(false);
     } catch (error) {
       console.error('Error loading contract:', error);
       alert(t('failedToLoadContract'));
@@ -183,6 +192,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
+    setHasUnsavedChanges(true);
   };
 
   const handleSaveBuyer = async (buyerData) => {
@@ -343,6 +353,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
         alert(t('contractCreatedSuccess'));
       }
 
+      setHasUnsavedChanges(false);
       if (onSuccess) onSuccess();
     } catch (error) {
       console.error('Error saving contract:', error);
@@ -351,7 +362,27 @@ const ContractForm = ({ contractId, onSuccess }) => {
     } finally {
       setLoading(false);
     }
-  };  return (
+  };
+
+  const handleCancelClick = () => {
+    if (hasUnsavedChanges) {
+      setShowConfirmDialog(true);
+    } else {
+      window.history.back();
+    }
+  };
+
+  const handleConfirmDialogAction = (action) => {
+    setShowConfirmDialog(false);
+    if (action === 'save') {
+      handleSubmit({ preventDefault: () => {} });
+    } else if (action === 'discard') {
+      setHasUnsavedChanges(false);
+      window.history.back();
+    }
+  };
+
+  return (
     <div className="contract-form-container">
       <h2>{contractId ? t('edit') + ' ' + t('contractDetails') : t('newContract')}</h2>
       
@@ -663,6 +694,31 @@ const ContractForm = ({ contractId, onSuccess }) => {
           </div>
         </section>
 
+        {/* Buyer and Seller Terms */}
+        <section className="form-section">
+          <h3>{t('contractTerms')}</h3>
+          <div className="form-group">
+            <label>{t('buyerTerms')}</label>
+            <textarea
+              name="buyerTerms"
+              value={formData.buyerTerms}
+              onChange={handleChange}
+              rows="6"
+              placeholder={t('buyerTermsPlaceholder')}
+            />
+          </div>
+          <div className="form-group">
+            <label>{t('sellerTerms')}</label>
+            <textarea
+              name="sellerTerms"
+              value={formData.sellerTerms}
+              onChange={handleChange}
+              rows="6"
+              placeholder={t('sellerTermsPlaceholder')}
+            />
+          </div>
+        </section>
+
         {/* Contract Status */}
         <section className="form-section">
           <h3>{t('contractStatus')}</h3>
@@ -682,10 +738,40 @@ const ContractForm = ({ contractId, onSuccess }) => {
           <button type="submit" className="btn btn-primary" disabled={loading}>
             {loading ? t('loading') + '...' : t('save')}
           </button>
-          <button type="button" className="btn btn-secondary" onClick={() => window.history.back()}>
+          <button type="button" className="btn btn-secondary" onClick={handleCancelClick}>
             {t('cancel')}
           </button>
         </div>
+
+        {showConfirmDialog && (
+          <div className="confirmation-dialog-overlay">
+            <div className="confirmation-dialog">
+              <h3>{t('unsavedChanges')}</h3>
+              <p>{t('unsavedChangesMessage')}</p>
+              <div className="dialog-actions">
+                <button 
+                  className="btn btn-primary" 
+                  onClick={() => handleConfirmDialogAction('save')}
+                  disabled={loading}
+                >
+                  {t('save')}
+                </button>
+                <button 
+                  className="btn btn-danger" 
+                  onClick={() => handleConfirmDialogAction('discard')}
+                >
+                  {t('discardChanges')}
+                </button>
+                <button 
+                  className="btn btn-secondary" 
+                  onClick={() => setShowConfirmDialog(false)}
+                >
+                  {t('cancel')}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </form>
 
       {showBuyerModal && (
