@@ -8,6 +8,7 @@ frontend:
     build:
       commands:
         - export REACT_APP_API_URL=http://export-contract-prod.eba-tn3yzxf3.us-east-1.elasticbeanstalk.com/api
+        - export REACT_APP_API_KEY=$API_KEY
         - npm run build
   artifacts:
     baseDirectory: client/build
