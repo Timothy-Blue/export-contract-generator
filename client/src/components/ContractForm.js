@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Select from 'react-select';
-import { contractAPI, partyAPI, commodityAPI, paymentTermAPI, bankDetailsAPI } from '../services/api';
+import { contractAPI, partyAPI, paymentTermAPI, bankDetailsAPI } from '../services/api';
 import { INCOTERMS, CURRENCIES, UNITS } from '../constants';
 import BuyerModal from './BuyerModal';
 import SellerModal from './SellerModal';
-import CommodityModal from './CommodityModal';
 import BankDetailsModal from './BankDetailsModal';
 import { useLanguage } from '../contexts/LanguageContext';
 import './ContractForm.css';
@@ -14,18 +13,15 @@ const ContractForm = ({ contractId, onSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [buyers, setBuyers] = useState([]);
   const [sellers, setSellers] = useState([]);
-  const [commodities, setCommodities] = useState([]);
   const [paymentTerms, setPaymentTerms] = useState([]);
   const [bankDetails, setBankDetails] = useState([]);
   const [showBuyerModal, setShowBuyerModal] = useState(false);
   const [showSellerModal, setShowSellerModal] = useState(false);
-  const [showCommodityModal, setShowCommodityModal] = useState(false);
   const [showBankDetailsModal, setShowBankDetailsModal] = useState(false);
   
   const [formData, setFormData] = useState({
     buyer: '',
     seller: '',
-    commodity: '',
     commodityDescription: '',
     quantity: 100,
     unit: 'MT',
@@ -96,23 +92,20 @@ const ContractForm = ({ contractId, onSuccess }) => {
 
   const loadMasterData = async () => {
     try {
-      const [buyersRes, sellersRes, commoditiesRes, paymentTermsRes, bankDetailsRes] = await Promise.all([
+      const [buyersRes, sellersRes, paymentTermsRes, bankDetailsRes] = await Promise.all([
         partyAPI.getAll({ type: 'BUYER' }),
         partyAPI.getAll({ type: 'SELLER' }),
-        commodityAPI.getAll(),
         paymentTermAPI.getAll(),
         bankDetailsAPI.getAll()
       ]);
 
       const buyerOptions = buyersRes.data.map(b => ({ value: b._id, label: b.companyName, data: b }));
       const sellerOptions = sellersRes.data.map(s => ({ value: s._id, label: s.companyName, data: s }));
-      const commodityOptions = commoditiesRes.data.map(c => ({ value: c._id, label: c.name, data: c }));
       const paymentTermOptions = paymentTermsRes.data.map(p => ({ value: p._id, label: p.name, data: p }));
       const bankDetailOptions = bankDetailsRes.data.map(b => ({ value: b._id, label: b.bankName, data: b }));
 
       setBuyers(buyerOptions);
       setSellers(sellerOptions);
-      setCommodities(commodityOptions);
       setPaymentTerms(paymentTermOptions);
       setBankDetails(bankDetailOptions);
 
@@ -128,7 +121,6 @@ const ContractForm = ({ contractId, onSuccess }) => {
       console.log('Master data loaded successfully:', {
         buyers: buyerOptions.length,
         sellers: sellerOptions.length,
-        commodities: commodityOptions.length,
         paymentTerms: paymentTermOptions.length,
         bankDetails: bankDetailOptions.length
       });
@@ -146,7 +138,6 @@ const ContractForm = ({ contractId, onSuccess }) => {
       setFormData({
         buyer: contract.buyer._id,
         seller: contract.seller._id,
-        commodity: contract.commodity._id,
         commodityDescription: contract.commodityDescription,
         quantity: contract.quantity,
         unit: contract.unit,
@@ -241,29 +232,6 @@ const ContractForm = ({ contractId, onSuccess }) => {
     }
   };
 
-  const handleSaveCommodity = async (commodityData) => {
-    try {
-      const response = await commodityAPI.create(commodityData);
-      const newCommodity = response.data;
-      
-      // Reload commodities list
-      const commoditiesRes = await commodityAPI.getAll();
-      setCommodities(commoditiesRes.data.map(c => ({ value: c._id, label: c.name, data: c })));
-      
-      // Select the newly created commodity
-      setFormData(prev => ({ ...prev, commodity: newCommodity._id }));
-      
-      // Close modal
-      setShowCommodityModal(false);
-      
-      alert(t('commodityAddedSuccess'));
-    } catch (error) {
-      console.error('Error creating commodity:', error);
-      alert(t('failedToCreateCommodity') + ': ' + (error.response?.data?.message || error.message));
-      throw error;
-    }
-  };
-
   const handleSaveBankDetails = async (bankDetailsData) => {
     try {
       const response = await bankDetailsAPI.create(bankDetailsData);
@@ -322,7 +290,7 @@ const ContractForm = ({ contractId, onSuccess }) => {
       alert(t('pleaseSelectSeller'));
       return;
     }
-    if (!formData.commodity) {
+    if (!formData.commodity && !formData.commodityDescription) {
       alert(t('pleaseSelectCommodityAlert'));
       return;
     }
@@ -442,56 +410,35 @@ const ContractForm = ({ contractId, onSuccess }) => {
         <section className="form-section">
           <h3>{t('article1')}</h3>
           <div className="form-group">
-            <label>{t('commodity')} *</label>
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-              <div style={{ flex: 1 }}>
-                <Select
-                  options={commodities}
-                  value={commodities.find(c => c.value === formData.commodity)}
-                  onChange={(opt) => handleSelectChange('commodity', opt)}
-                  placeholder={t('selectCommodityPlaceholder')}
-                  required
-                />
-              </div>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => setShowCommodityModal(true)}
-                style={{ whiteSpace: 'nowrap' }}
-              >
-                {t('addNewCommodity')}
-              </button>
-            </div>
-          </div>
-          <div className="form-group">
-            <label>{t('description')} *</label>
+            <label>{t('commodityDescription')} *</label>
             <textarea
               name="commodityDescription"
               value={formData.commodityDescription}
               onChange={handleChange}
               rows="3"
               required
+              placeholder={t('enterCommodityDetails')}
             />
           </div>
           <div className="form-row">
             <div className="form-group">
-              <label>{t('quantity')} *</label>
+              <label>{t('quantity')}</label>
               <input
                 type="number"
                 name="quantity"
-                value={formData.quantity}
+                value={formData.quantity === 0 ? '' : formData.quantity}
                 onChange={handleChange}
                 step="0.01"
-                required
+                min="0"
+                placeholder="0"
               />
             </div>
             <div className="form-group">
-              <label>{t('unit')} *</label>
+              <label>{t('unit')}</label>
               <Select
                 options={UNITS}
                 value={UNITS.find(u => u.value === formData.unit)}
                 onChange={(opt) => handleSelectChange('unit', opt)}
-                required
               />
             </div>
             <div className="form-group">
@@ -552,23 +499,23 @@ const ContractForm = ({ contractId, onSuccess }) => {
           <h3>{t('article2')}</h3>
           <div className="form-row">
             <div className="form-group">
-              <label>{t('unitPrice')} *</label>
+              <label>{t('unitPrice')}</label>
               <input
                 type="number"
                 name="unitPrice"
-                value={formData.unitPrice}
+                value={formData.unitPrice === 0 ? '' : formData.unitPrice}
                 onChange={handleChange}
                 step="0.01"
-                required
+                min="0"
+                placeholder="0"
               />
             </div>
             <div className="form-group">
-              <label>{t('currency')} *</label>
+              <label>{t('currency')}</label>
               <Select
                 options={CURRENCIES}
                 value={CURRENCIES.find(c => c.value === formData.currency)}
                 onChange={(opt) => handleSelectChange('currency', opt)}
-                required
               />
             </div>
           </div>
@@ -787,14 +734,6 @@ const ContractForm = ({ contractId, onSuccess }) => {
           isOpen={showSellerModal}
           onClose={() => setShowSellerModal(false)}
           onSave={handleSaveSeller}
-        />
-      )}
-
-      {showCommodityModal && (
-        <CommodityModal
-          isOpen={showCommodityModal}
-          onClose={() => setShowCommodityModal(false)}
-          onSave={handleSaveCommodity}
         />
       )}
 

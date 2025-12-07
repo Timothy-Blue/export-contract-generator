@@ -20,24 +20,39 @@ function App() {
     setCurrentView('list');
   };
 
+  const handleReturnToList = () => {
+    setEditingContractId(null);
+    setCurrentView('list');
+  };
+
   return (
     <div className="App">
       <header className="app-header">
         <div className="header-content">
-          <h1>📄 {t('appTitle')}</h1>
+          <button 
+            className="logo-btn"
+            onClick={handleReturnToList}
+            title="Return to Contract List"
+          >
+            📄 {t('appTitle')}
+          </button>
           <nav className="nav-menu">
-            <button 
-              className={`nav-btn ${currentView === 'list' ? 'active' : ''}`}
-              onClick={() => setCurrentView('list')}
-            >
-              {t('contractList')}
-            </button>
-            <button 
-              className={`nav-btn ${currentView === 'form' ? 'active' : ''}`}
-              onClick={() => { setEditingContractId(null); setCurrentView('form'); }}
-            >
-              {t('newContract')}
-            </button>
+            {currentView === 'form' && (
+              <button 
+                className="nav-btn"
+                onClick={handleReturnToList}
+              >
+                ← {t('contractList')}
+              </button>
+            )}
+            {currentView === 'list' && (
+              <button 
+                className="nav-btn"
+                onClick={() => { setEditingContractId(null); setCurrentView('form'); }}
+              >
+                + {t('newContract')}
+              </button>
+            )}
             <LanguageSwitcher />
           </nav>
         </div>
@@ -49,7 +64,8 @@ function App() {
         ) : (
           <ContractForm 
             contractId={editingContractId} 
-            onSuccess={handleFormSuccess} 
+            onSuccess={handleFormSuccess}
+            onCancel={handleReturnToList}
           />
         )}
       </main>

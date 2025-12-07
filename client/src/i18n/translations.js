@@ -50,6 +50,7 @@ export const translations = {
     addNewSeller: "Add New Seller",
     addNewCommodity: "Add New Commodity",
     addNewBank: "Add New Bank",
+    orManuallyEnterBelow: "or manually enter commodity details below",
     
     // Buyer/Seller Modal
     addBuyer: "Add New Buyer",
@@ -286,6 +287,7 @@ export const translations = {
     addNewSeller: "Thêm Bên Bán Mới",
     addNewCommodity: "Thêm Hàng Hóa Mới",
     addNewBank: "Thêm Ngân Hàng Mới",
+    orManuallyEnterBelow: "hoặc nhập chi tiết hàng hóa thủ công bên dưới",
     
     // Buyer/Seller Modal
     addBuyer: "Thêm Bên Mua Mới",
