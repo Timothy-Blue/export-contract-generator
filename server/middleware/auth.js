@@ -9,6 +9,15 @@ const authenticateAPIKey = (req, res, next) => {
     return next();
   }
 
+  // Check if API_KEY is configured in environment
+  const validApiKey = process.env.API_KEY;
+
+  // If no API_KEY is configured, skip authentication (allow all requests)
+  if (!validApiKey) {
+    console.warn('⚠️  API_KEY not configured - API authentication is DISABLED');
+    return next();
+  }
+
   // Get API key from headers
   const apiKey = req.headers['x-api-key'] || req.headers['authorization']?.replace('Bearer ', '');
 
@@ -17,17 +26,6 @@ const authenticateAPIKey = (req, res, next) => {
     return res.status(401).json({ 
       message: 'Authentication required. Please provide an API key.',
       error: 'Missing API key'
-    });
-  }
-
-  // Verify API key matches environment variable
-  const validApiKey = process.env.API_KEY;
-
-  if (!validApiKey) {
-    console.error('API_KEY environment variable is not set!');
-    return res.status(500).json({ 
-      message: 'Server configuration error',
-      error: 'API key not configured'
     });
   }
 
