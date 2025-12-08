@@ -4,39 +4,8 @@
  */
 
 const authenticateAPIKey = (req, res, next) => {
-  // Skip authentication for GET requests (read-only)
-  if (req.method === 'GET') {
-    return next();
-  }
-
-  // Check if API_KEY is configured in environment
-  const validApiKey = process.env.API_KEY;
-
-  // If no API_KEY is configured, skip authentication (allow all requests)
-  if (!validApiKey) {
-    console.warn('⚠️  API_KEY not configured - API authentication is DISABLED');
-    return next();
-  }
-
-  // Get API key from headers
-  const apiKey = req.headers['x-api-key'] || req.headers['authorization']?.replace('Bearer ', '');
-
-  // Check if API key exists
-  if (!apiKey) {
-    return res.status(401).json({ 
-      message: 'Authentication required. Please provide an API key.',
-      error: 'Missing API key'
-    });
-  }
-
-  if (apiKey !== validApiKey) {
-    return res.status(403).json({ 
-      message: 'Invalid API key',
-      error: 'Access denied'
-    });
-  }
-
-  // API key is valid, proceed
+  // Authentication is disabled - allow all requests
+  // This is a frontend-accessed API, so no API key is required
   next();
 };
 
