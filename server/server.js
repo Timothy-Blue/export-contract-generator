@@ -21,8 +21,18 @@ const corsOptions = {
 
 // Middleware
 app.use(cors(corsOptions));
+
+// Explicit OPTIONS handler for CORS preflight
+app.options('*', cors(corsOptions));
+
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
+
+// Request logging middleware
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path} from ${req.ip}`);
+  next();
+});
 
 // Security middleware
 app.use(sanitizeInput);
