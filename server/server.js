@@ -25,22 +25,9 @@ app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
 // Security middleware
-// Disable rate limiting for development
-// app.use(rateLimit(60000, 100)); // 100 requests per minute
 app.use(sanitizeInput);
 
-// Disable API key authentication for now - allowing all requests to work
-// TODO: Re-enable once environment variables are properly configured in production
-// app.use('/api', (req, res, next) => {
-//   // Skip authentication for health check
-//   if (req.path === '/health') {
-//     return next();
-//   }
-//   // Apply authentication
-//   authenticateAPIKey(req, res, next);
-// });
-
-// Routes
+// Routes - NO AUTHENTICATION MIDDLEWARE
 app.use('/api/contracts', require('./routes/contracts'));
 app.use('/api/parties', require('./routes/parties'));
 app.use('/api/commodities', require('./routes/commodities'));
