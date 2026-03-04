@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ContractForm from './components/ContractForm';
 import ContractList from './components/ContractList';
+import ContractImportPage from './components/ContractImportPage';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import { useLanguage } from './contexts/LanguageContext';
 import './App.css';
@@ -53,6 +54,14 @@ function App() {
                 + {t('newContract')}
               </button>
             )}
+            {currentView === 'list' && (
+              <button
+                className="nav-btn"
+                onClick={() => setCurrentView('import')}
+              >
+                ↑ Import
+              </button>
+            )}
             <LanguageSwitcher />
           </nav>
         </div>
@@ -61,6 +70,8 @@ function App() {
       <main className="app-main">
         {currentView === 'list' ? (
           <ContractList onEdit={handleEditContract} />
+        ) : currentView === 'import' ? (
+          <ContractImportPage onBack={handleReturnToList} />
         ) : (
           <ContractForm 
             contractId={editingContractId} 

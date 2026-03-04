@@ -96,6 +96,19 @@ export const exportAPI = {
   downloadReleaseNote: (id) => `${API_URL}/export/release-note/${id}`
 };
 
+// Import API
+export const importAPI = {
+  templateUrl: `${API_URL}/import/template`,
+  uploadCsv: (file, confirm = false) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    if (confirm) formData.append('confirm', 'true');
+    return apiClient.post('/import/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+  }
+};
+
 const api = {
   contractAPI,
   partyAPI,

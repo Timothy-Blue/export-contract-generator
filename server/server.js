@@ -38,6 +38,7 @@ app.use((req, res, next) => {
 app.use(sanitizeInput);
 
 // Routes - NO AUTHENTICATION MIDDLEWARE
+app.use('/api/import', require('./routes/import'));
 app.use('/api/contracts', require('./routes/contracts'));
 app.use('/api/parties', require('./routes/parties'));
 app.use('/api/commodities', require('./routes/commodities'));
