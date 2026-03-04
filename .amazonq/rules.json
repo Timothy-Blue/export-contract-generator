@@ -1,0 +1,180 @@
+{
+  "rules": [
+    {
+      "name": "MERN Stack Best Practices",
+      "description": "Node.js and React development standards for Export Contract Generator",
+      "enabled": true,
+      "patterns": {
+        "backend": {
+          "framework": "Express.js",
+          "database": "MongoDB with Mongoose",
+          "architecture": "MVC-style with routes, controllers, models, utilities",
+          "errorHandling": "Always use try-catch with async/await",
+          "validation": "Validate on both frontend and backend",
+          "security": "Sanitize inputs, use CORS, environment variables"
+        },
+        "frontend": {
+          "library": "React 18.x with functional components and hooks",
+          "stateManagement": "React Context for global state, local state for components",
+          "apiIntegration": "Centralized axios service with interceptors",
+          "errorHandling": "Display user-friendly messages, implement loading states",
+          "styling": "Co-located CSS files with components"
+        },
+        "codeOrganization": {
+          "backend": "server/{config,models,routes,controllers,middleware,utils}",
+          "frontend": "client/src/{components,services,contexts,constants,i18n}",
+          "naming": {
+            "files": "camelCase for backend, PascalCase for React components",
+            "variables": "descriptive names, booleans start with is/has/should",
+            "functions": "use verbs (calculate, fetch, handle)"
+          }
+        },
+        "database": {
+          "schemas": "Include validation, indexes, timestamps, pre-save hooks",
+          "queries": "Use populate() for references, lean() for read-only, implement pagination",
+          "deletion": "Prefer soft delete with isActive flag"
+        },
+        "apiDesign": {
+          "endpoints": "RESTful: GET /api/resources, POST /api/resources, etc.",
+          "responses": "Consistent JSON format with proper HTTP status codes",
+          "errorCodes": "400 validation, 404 not found, 500 server error"
+        }
+      },
+      "examples": {
+        "mongooseModel": {
+          "description": "Standard Mongoose schema pattern",
+          "code": "const schema = new mongoose.Schema({ field: { type: String, required: true, trim: true } }, { timestamps: true }); schema.index({ field: 1 });"
+        },
+        "expressController": {
+          "description": "Standard Express controller with error handling",
+          "code": "exports.getResource = async (req, res) => { try { const resource = await Model.findById(req.params.id).populate('ref'); if (!resource) return res.status(404).json({ message: 'Not found' }); res.json(resource); } catch (error) { console.error('Error:', error); res.status(500).json({ message: 'Server error' }); } };"
+        },
+        "reactComponent": {
+          "description": "Standard React functional component with hooks",
+          "code": "function Component() { const [data, setData] = useState([]); const [loading, setLoading] = useState(false); const [error, setError] = useState(null); useEffect(() => { fetchData(); }, []); const fetchData = async () => { setLoading(true); try { const response = await api.getAll(); setData(response.data); } catch (err) { setError(err.message); } finally { setLoading(false); } }; if (loading) return <div>Loading...</div>; if (error) return <div>Error: {error}</div>; return <div>{/* JSX */}</div>; }"
+        },
+        "apiService": {
+          "description": "Centralized API service with axios",
+          "code": "const apiClient = axios.create({ baseURL: process.env.REACT_APP_API_URL, headers: { 'Content-Type': 'application/json' } }); export const resourceAPI = { getAll: (params) => apiClient.get('/resources', { params }), getById: (id) => apiClient.get(`/resources/${id}`), create: (data) => apiClient.post('/resources', data), update: (id, data) => apiClient.put(`/resources/${id}`, data), delete: (id) => apiClient.delete(`/resources/${id}`) };"
+        }
+      },
+      "checklist": {
+        "newBackendFeature": [
+          "Create Mongoose model with validation and indexes",
+          "Create controller with CRUD operations and error handling",
+          "Create routes and register in server.js",
+          "Add utility functions if needed",
+          "Test all endpoints",
+          "Update API documentation"
+        ],
+        "newFrontendFeature": [
+          "Create component with co-located CSS",
+          "Add API service methods",
+          "Implement loading and error states",
+          "Add form validation if applicable",
+          "Update navigation/routing if needed",
+          "Test user interactions"
+        ],
+        "codeReview": [
+          "All inputs validated on both frontend and backend",
+          "Error handling with try-catch blocks",
+          "Proper HTTP status codes used",
+          "Database queries optimized with indexes",
+          "Loading and error states implemented",
+          "Descriptive variable and function names",
+          "No sensitive data in code (use environment variables)",
+          "Consistent code formatting"
+        ]
+      },
+      "antiPatterns": {
+        "avoid": [
+          "Committing .env files",
+          "Using var instead of const/let",
+          "Nested callbacks (use async/await)",
+          "Hard-coded configuration values",
+          "Missing error handling",
+          "No input validation",
+          "Inline styles in React",
+          "Deep component nesting (>3 levels)",
+          "Large functions (>50 lines)",
+          "Hard delete without soft delete option"
+        ]
+      },
+      "performance": {
+        "backend": [
+          "Use indexes on frequently queried fields",
+          "Implement pagination for large datasets",
+          "Use lean() for read-only queries",
+          "Select only needed fields with populate()",
+          "Cache frequently accessed data"
+        ],
+        "frontend": [
+          "Lazy load components with React.lazy()",
+          "Debounce search inputs",
+          "Memoize expensive calculations with useMemo",
+          "Use React.memo for pure components",
+          "Optimize re-renders with useCallback"
+        ]
+      },
+      "security": {
+        "required": [
+          "Sanitize all user inputs",
+          "Validate data on both frontend and backend",
+          "Use environment variables for sensitive data",
+          "Configure CORS properly",
+          "Implement rate limiting",
+          "Use HTTPS in production",
+          "Hash passwords (if implementing auth)",
+          "Validate file uploads"
+        ]
+      }
+    },
+    {
+      "name": "Project-Specific Patterns",
+      "description": "Patterns specific to Export Contract Generator",
+      "enabled": true,
+      "patterns": {
+        "calculations": {
+          "totalAmount": "quantity × unitPrice, rounded to 2 decimals",
+          "toleranceRange": "baseValue ± (baseValue × tolerance%), rounded to 2 decimals",
+          "numberToText": "Use number-to-words library with currency formatting"
+        },
+        "contractNumber": {
+          "format": "PREFIX-YYYYMM-TIMESTAMP",
+          "example": "CON-202603-456789"
+        },
+        "softDelete": {
+          "pattern": "Use isActive: false instead of removing records",
+          "query": "Always filter by isActive: true for active records"
+        },
+        "references": {
+          "populate": "Always populate references when returning contract details",
+          "fields": "buyer, seller, commodity, paymentTerm, bankDetails"
+        }
+      },
+      "utilities": {
+        "calculations.js": "Math operations, number-to-text, validation",
+        "pdfGenerator.js": "PDF creation with PDFKit",
+        "defaultTerms.js": "Default contract terms and conditions"
+      }
+    }
+  ],
+  "globalSettings": {
+    "codeStyle": {
+      "indentation": "2 spaces",
+      "quotes": "single",
+      "semicolons": true,
+      "trailingComma": "es5"
+    },
+    "documentation": {
+      "required": true,
+      "format": "JSDoc for functions",
+      "includeExamples": true
+    },
+    "testing": {
+      "required": false,
+      "framework": "Manual testing currently",
+      "coverage": "Test all CRUD operations and edge cases"
+    }
+  }
+}
