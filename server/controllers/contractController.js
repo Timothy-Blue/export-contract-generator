@@ -172,7 +172,9 @@ exports.createContract = async (req, res) => {
     const savedContract = await contract.save();
     
     // Populate references before sending response
-    await savedContract.populate('buyer seller commodity paymentTerm bankDetails');
+    const populateFields = ['buyer', 'seller', 'paymentTerm', 'bankDetails'];
+    if (savedContract.commodity) populateFields.push('commodity');
+    await savedContract.populate(populateFields);
     
     res.status(201).json(savedContract);
   } catch (error) {

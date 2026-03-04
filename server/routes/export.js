@@ -19,6 +19,11 @@ router.get('/pdf/:id', async (req, res) => {
     if (!contract) {
       return res.status(404).json({ message: 'Contract not found' });
     }
+
+    // If commodity wasn't populated but commodityDescription exists, that's fine
+    if (!contract.commodityDescription && contract.commodity?.description) {
+      contract.commodityDescription = contract.commodity.description;
+    }
     
     // Generate PDF
     const doc = generateContractPDF(contract);
@@ -50,6 +55,11 @@ router.get('/release-note/:id', async (req, res) => {
     
     if (!contract) {
       return res.status(404).json({ message: 'Contract not found' });
+    }
+
+    // If commodity wasn't populated but commodityDescription exists, that's fine
+    if (!contract.commodityDescription && contract.commodity?.description) {
+      contract.commodityDescription = contract.commodity.description;
     }
     
     // Generate Release Note PDF

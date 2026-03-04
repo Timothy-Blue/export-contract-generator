@@ -29,7 +29,7 @@ const contractSchema = new mongoose.Schema({
   commodity: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Commodity',
-    required: true
+    required: false
   },
   commodityDescription: {
     type: String,
