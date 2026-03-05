@@ -1,0 +1,4 @@
+contractNumber,contractDate,buyerName,sellerName,commodityName,commodityDescription,quantity,unit,tolerance,origin,packing,qualitySpec,unitPrice,currency,incoterm,portLocation,paymentTermName,bankName,accountName,accountNumber,swiftCode,shipmentPeriod,additionalTerms,releaseType,status
+E2E-001,2026-03-15,Test Buyer Inc,Test Seller Ltd,Coffee Beans,Arabica Grade A,1000,MT,5,Brazil,Jute Bags,Premium,2500,USD,FOB,Santos Port,LC at Sight,Test Bank,Test Account,1234567890,TESTUS33,March 2026,None,ORIGINAL_BL,DRAFT
+E2E-002,2026-03-16,Test Buyer Inc,Test Seller Ltd,Tea Leaves,Green Tea,500,MT,3,India,Cartons,Standard,1800,USD,CIF,Mumbai Port,TT 30 Days,Test Bank,Test Account,1234567890,TESTUS33,April 2026,None,TELEX_RELEASE,ACTIVE
+E2E-003,2026-03-17,Another Buyer,Test Seller Ltd,Rice,Basmati,2000,MT,10,Pakistan,Bags,Premium,1200,USD,FOB,Karachi Port,LC 60 Days,Test Bank,Test Account,1234567890,TESTUS33,May 2026,Special handling,ORIGINAL_BL,DRAFT

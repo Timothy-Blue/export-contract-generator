@@ -6,25 +6,21 @@ const DEFAULT_STATUS = 'DRAFT';
 const DEFAULT_RELEASE_TYPE = 'NOT_SPECIFIED';
 
 /**
- * Inserts all resolved contract rows in a single MongoDB transaction.
+ * Inserts all resolved contract rows using insertMany.
  * Uses insertMany to bypass the pre('save') hook (min/max already handled by hook on save,
  * but we bypass it here per design decision to use raw insertMany).
- * All-or-nothing: rolls back on any failure.
+ * Note: Without transactions, partial imports may occur if some documents fail.
  *
  * @param {Array} resolvedRows - ResolvedContractData[]
  * @param {string} userId
  * @returns {Array} ImportRowResult[]
  */
 async function createAll(resolvedRows, userId) {
-  const session = await mongoose.startSession();
-  session.startTransaction();
-
   try {
     const docs = resolvedRows.map(row => buildContractDoc(row, userId));
-    const inserted = await Contract.insertMany(docs, { session, ordered: true });
+    const inserted = await Contract.insertMany(docs, { ordered: true });
 
-    await session.commitTransaction();
-    console.log(`[${new Date().toISOString()}] [INFO] [Unit3] Transaction committed. Inserted ${inserted.length} contracts.`);
+    console.log(`[${new Date().toISOString()}] [INFO] [Unit3] Inserted ${inserted.length} contracts.`);
 
     return inserted.map((contract, i) => ({
       rowNumber: resolvedRows[i].rowNumber,
@@ -34,10 +30,9 @@ async function createAll(resolvedRows, userId) {
       error: null
     }));
   } catch (err) {
-    await session.abortTransaction();
     const failedRow = resolvedRows.find(r => err.message && err.message.includes(r.contractNumber));
     const rowInfo = failedRow ? ` (row ${failedRow.rowNumber})` : '';
-    console.error(`[${new Date().toISOString()}] [ERROR] [Unit3] Transaction aborted${rowInfo}: ${err.message}`);
+    console.error(`[${new Date().toISOString()}] [ERROR] [Unit3] Insert failed${rowInfo}: ${err.message}`);
 
     return resolvedRows.map(row => ({
       rowNumber: row.rowNumber,
@@ -46,8 +41,6 @@ async function createAll(resolvedRows, userId) {
       contractId: null,
       error: 'Import failed. No contracts were saved.'
     }));
-  } finally {
-    session.endSession();
   }
 }
 

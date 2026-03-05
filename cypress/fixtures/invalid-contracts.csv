@@ -1,0 +1,4 @@
+contractNumber,contractDate,buyerName,sellerName,commodityName,commodityDescription,quantity,unit,tolerance,origin,packing,qualitySpec,unitPrice,currency,incoterm,portLocation,paymentTermName,bankName,accountName,accountNumber,swiftCode,shipmentPeriod,additionalTerms,releaseType,status
+,2026-03-15,Test Buyer Inc,Test Seller Ltd,Coffee Beans,Arabica Grade A,1000,MT,5,Brazil,Jute Bags,Premium,2500,USD,FOB,Santos Port,LC at Sight,Test Bank,Test Account,1234567890,TESTUS33,March 2026,None,ORIGINAL_BL,DRAFT
+E2E-005,invalid-date,Test Buyer Inc,Test Seller Ltd,Coffee Beans,Arabica Grade A,-500,MT,5,Brazil,Jute Bags,Premium,2500,USD,FOB,Santos Port,LC at Sight,Test Bank,Test Account,1234567890,TESTUS33,March 2026,None,ORIGINAL_BL,DRAFT
+E2E-006,2026-03-15,Test Buyer Inc,Test Buyer Inc,Coffee Beans,Arabica Grade A,1000,MT,5,Brazil,Jute Bags,Premium,2500,USD,FOB,Santos Port,LC at Sight,Test Bank,Test Account,1234567890,TESTUS33,March 2026,None,ORIGINAL_BL,DRAFT

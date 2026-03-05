@@ -10,8 +10,17 @@
     "client": "set NODE_OPTIONS=--max_old_space_size=4096 && npm start --prefix client",
     "install-all": "npm install && npm install --prefix client",
     "build": "set NODE_OPTIONS=--max_old_space_size=4096 && npm run build --prefix client",
-    "test": "node server/tests/test-controllers.js",
-    "test:controllers": "node server/tests/test-controllers.js"
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:services": "jest server/services",
+    "test:controllers": "jest server/controllers",
+    "test:unit": "jest --testPathIgnorePatterns=integration",
+    "test:coverage": "jest --coverage --coverageReporters=text-lcov --coverageReporters=html",
+    "test:e2e": "cypress run",
+    "test:e2e:open": "cypress open",
+    "test:e2e:headed": "cypress run --headed",
+    "test:e2e:chrome": "cypress run --browser chrome",
+    "test:e2e:spec": "cypress run --spec"
   },
   "keywords": [
     "export",
@@ -26,6 +35,7 @@
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "csv-parse": "^6.1.0",
+    "cypress": "^15.11.0",
     "date-fns": "^3.0.6",
     "docxtemplater": "^3.42.3",
     "dotenv": "^16.3.1",
@@ -37,7 +47,11 @@
     "pizzip": "^3.1.4"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "concurrently": "^8.2.2",
+    "jest": "^30.2.0",
+    "mongodb-memory-server": "^11.0.1",
+    "node-mocks-http": "^1.17.2",
     "nodemon": "^3.0.2"
   }
 }

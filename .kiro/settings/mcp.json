@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "cypress-e2e": {
+      "command": "node",
+      "args": [
+        ".kiro/mcp-servers/cypress-mcp/index.js"
+      ],
+      "env": {},
+      "disabled": false,
+      "autoApprove": ["run_cypress_test", "list_cypress_tests"]
+    }
+  }
+}

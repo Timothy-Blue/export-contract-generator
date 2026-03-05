@@ -126,7 +126,7 @@ const validateContractData = (contractData) => {
   
   if (!contractData.buyer) errors.push('Buyer is required');
   if (!contractData.seller) errors.push('Seller is required');
-  if (!contractData.commodity) errors.push('Commodity is required');
+  // if (!contractData.commodity) errors.push('Commodity is required');
   if (!contractData.quantity || contractData.quantity <= 0) {
     errors.push('Valid quantity is required');
   }
